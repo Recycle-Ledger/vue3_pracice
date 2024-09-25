@@ -29,9 +29,8 @@ import { useSidebarStore } from "./stores/sideBarStore";
 import { ref, computed } from "vue";
 
 const sideBarStore = useSidebarStore();
-const isSimple = computed(() => sideBarStore.isSimple);
+const isSimple = computed<Boolean>(() => sideBarStore.isSimple);
 </script>
 
 <style scoped>
-/* 추가적인 레이아웃 스타일을 원하면 여기에 작성 */
 </style>

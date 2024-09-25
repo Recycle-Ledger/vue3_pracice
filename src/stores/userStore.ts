@@ -1,8 +1,13 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
 
-export const useUserStore = defineStore('user', {
-  state: () => ({
-    username: 'WH', // 사용자명을 저장할 상태
+// 유저 상태 타입
+interface UserState {
+  username: string;
+}
+
+export const useUserStore = defineStore("user", {
+  state: (): UserState => ({
+    username: "WH", // 사용자명을 저장할 상태
   }),
   actions: {
     setUsername(name: string) {
@@ -10,6 +15,6 @@ export const useUserStore = defineStore('user', {
     },
   },
   getters: {
-    getUsername: (state) => state.username, // 사용자명을 가져오는 게터
+    getUsername: (state): string => state.username, // 사용자명을 가져오는 게터
   },
 });

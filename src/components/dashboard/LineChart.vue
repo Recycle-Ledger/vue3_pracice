@@ -8,27 +8,36 @@
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto";
 import { onMounted } from "vue";
 
-const labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+interface Dataset {
+  label: string;         
+  data: number[];        
+  borderWidth: number;   
+}
+
+const labels:string[] = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+const datasets: Dataset[] = [
+  {
+    label: "# 1 of Votes",
+    data: [1, 19, 1, 5, 2, 3],
+    borderWidth: 1,
+  },
+  {
+    label: "# 2 of Votes",
+    data: [12, 1, 1, 1, 2, 3],
+    borderWidth: 1,
+  },
+  {
+    label: "# 3 of Votes",
+    data: [12, 19, 1, 5, 1, 1],
+    borderWidth: 1,
+  },
+];
+
 const data = {
   labels: labels,
-  datasets: [
-    {
-      label: "# 1 of Votes",
-      data: [1, 19, 1, 5, 2, 3],
-      borderWidth: 1,
-    },
-    {
-      label: "# 2 of Votes",
-      data: [12, 1, 1, 1, 2, 3],
-      borderWidth: 1,
-    },
-    {
-      label: "# 3 of Votes",
-      data: [12, 19, 1, 5, 1, 1],
-      borderWidth: 1,
-    },
-  ],
+  datasets: datasets
 };
+
 const config: ChartConfiguration = {
   type: "line",
   data: data,

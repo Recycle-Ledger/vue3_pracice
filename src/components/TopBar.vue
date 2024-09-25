@@ -75,17 +75,17 @@ const toggleDropdown = (): void => {
 };
 
 // 사용자 유형 선택 함수
-const selectUserType = (type: string) => {
+const selectUserType = (type: string):void => {
   userStore.setUsername(type); // 사용자 유형 설정
   toggleDropdown(); // 드롭다운 닫기
 };
 
 // pinia 사이드바 스토어 사용
-const sidebarStore = useSidebarStore();
-const isSimple = computed(() => sidebarStore.isSimple);
+const sideBarStore = useSidebarStore();
+const isSimple = computed<Boolean>(() => sideBarStore.isSimple);
 // 사이드바 토글 함수
 const toggleSidebar = (): void => {
-  sidebarStore.toggleSidebar(); // 사이드바 열림/닫힘 토글
+  sideBarStore.toggleSidebar(); // 사이드바 열림/닫힘 토글
 };
 </script>
 

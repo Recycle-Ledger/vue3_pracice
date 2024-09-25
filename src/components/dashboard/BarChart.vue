@@ -8,7 +8,8 @@
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto";
 import { onMounted } from "vue";
 
-const labels = [1, 2, 3, 4, 5, 6, 7];
+// 라벨과 데이터셋 정의
+const labels: number[] = [1, 2, 3, 4, 5, 6, 7];
 const data = {
   labels: labels,
   datasets: [
@@ -37,6 +38,8 @@ const data = {
     },
   ],
 };
+
+// Chart.js의 설정 객체에 타입을 지정
 const config: ChartConfiguration = {
   type: "bar",
   data: data,
@@ -50,7 +53,9 @@ const config: ChartConfiguration = {
 };
 
 onMounted(() => {
-  const canvasTag = <ChartItem>document.getElementById("barChart");
+  // 캔버스 요소를 가져오고 타입을 적용
+  const canvasTag = document.getElementById("barChart") as ChartItem;
+  // Chart 인스턴스 생성
   new Chart(canvasTag, config);
 });
 </script>
