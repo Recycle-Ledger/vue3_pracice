@@ -1,5 +1,55 @@
-# Vue 3 + TypeScript + Vite
+### 프로젝트 이름: Vue 3 연습 프로젝트
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+---
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+### **프로젝트 구조**
+
+다음과 같은 기술 스택과 도구들을 사용
+
+- **Vue 3**: 현대적인 웹 프레임워크로, 다양한 기능과 유연한 컴포넌트 구조를 제공함.
+- **TypeScript**: 자바스크립트의 슈퍼셋으로, 타입 안정성을 제공함.
+- **Vite**: 빠른 빌드와 개발 환경을 제공하는 빌드 도구.
+- **Yarn**: 패키지 관리 도구로, 더 빠르고 효율적인 패키지 설치를 제공함.
+- **Composition API**: Vue 3에서 제공하는 새로운 API로, 더 유연한 상태 및 로직 관리를 가능하게 함.
+- **TailwindCSS**: 유틸리티 기반의 CSS 프레임워크로, 빠르고 일관된 스타일링을 지원함.
+- **Chart.js**: 대시보드나 데이터 시각화를 위한 차트 라이브러리.
+- **Pinia**: Vue 3에서 권장하는 상태 관리 라이브러리.
+- **Vue Router**: Vue 애플리케이션에서의 페이지 네비게이션을 담당하는 공식 라이브러리.
+
+---
+
+### **실행 방법**
+
+
+1. **패키지 설치**
+```bash
+yarn install
+```
+
+2. **개발 서버 실행**
+```bash
+yarn dev
+```
+- 브라우저에서 `http://localhost:3000`으로 접속하여 프로젝트를 확인할 수 있음.
+
+3. **빌드**
+```bash
+yarn build
+```
+- 프로젝트를 배포할 수 있는 상태로 빌드함.
+
+---
+
+### **프로젝트 폴더 구조**
+
+```bash
+src/
+│
+├── components/      # 재사용 가능한 Vue 컴포넌트
+├── pages/           # 페이지 단위의 컴포넌트 (라우터에 연결)
+├── router/          # Vue Router 설정 파일
+├── store/           # Pinia 상태 관리 관련 파일
+└── main.ts          # 애플리케이션 진입점
+```
+
+---
