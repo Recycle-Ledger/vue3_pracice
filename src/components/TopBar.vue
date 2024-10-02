@@ -67,7 +67,7 @@ const isDropdownOpen = ref<Boolean>(false);
 const userStore = useUserStore();
 
 // 반응형으로 상태를 가져오기 위해 computed 사용
-const userName = computed<string>(() => userStore.getUsername);
+const userName = computed<string>(() => userStore.getUserName);
 
 // 드롭다운 토글 함수
 const toggleDropdown = (): void => {
@@ -76,7 +76,7 @@ const toggleDropdown = (): void => {
 
 // 사용자 유형 선택 함수
 const selectUserType = (type: string):void => {
-  userStore.setUsername(type); // 사용자 유형 설정
+  userStore.setUserName(type); // 사용자 유형 설정
   toggleDropdown(); // 드롭다운 닫기
 };
 

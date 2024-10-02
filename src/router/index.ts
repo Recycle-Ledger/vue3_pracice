@@ -12,10 +12,11 @@ import SalesHistory from '../views/SalesHistory.vue';
 import AiRecognition from '../views/AiRecognition.vue';
 import CertificationRequest from '../views/CertificationRequest.vue';
 import CertificationHistory from '../views/CertificationHistory.vue';
+import Login from '../views/Login.vue';
 
 // 라우터 설정
 const routes = [
-  { path: '/', redirect: '/dashboard' }, // 기본 경로는 대시보드로 리다이렉트
+  { path: '/', name: 'Login', component: Login }, // 기본 경로는 로그인
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/members', name: 'Members', component: Members },
   { path: '/warehouse', name: 'Warehouse', component: Warehouse },

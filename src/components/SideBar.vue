@@ -110,7 +110,7 @@ import { useSidebarStore } from "../stores/sideBarStore.ts"; // Pinia 스토어 
 
 // 사용자 유형을 pinia에서 가져옴, 반응형을 위해 computed사용
 const userStore = useUserStore();
-const userType = computed<string>(() => userStore.getUsername);
+const userType = computed<string>(() => userStore.getUserName);
 
 // 사이드바 상태 스토어 사용
 const sidebarStore = useSidebarStore();
@@ -129,7 +129,7 @@ interface MenuConfig {
 
 const menuConfig: MenuConfig = {
   TR: [
-    { name: "대시보드", route: "/" },
+    { name: "대시보드", route: "/dashboard" },
     { name: "회원 목록", route: "/members" },
     { name: "창고 목록", route: "/warehouse" },
     { name: "구매 요청", route: "/purchase-request" },

@@ -2,19 +2,22 @@ import { defineStore } from "pinia";
 
 // 유저 상태 타입
 interface UserState {
-  username: string;
+  userName: string;
+  isLogin: boolean;
 }
 
 export const useUserStore = defineStore("user", {
   state: (): UserState => ({
-    username: "WH", // 사용자명을 저장할 상태
+    userName: "WH", // 사용자명을 저장할 상태
+    isLogin: false // 로그인 여부를 알려주는 임시 변수 -> 추후 토큰 여부로 판단
   }),
   actions: {
-    setUsername(name: string) {
-      this.username = name; // 사용자명을 설정하는 액션
+    setUserName(name: string) {
+      this.userName = name; // 사용자명을 설정하는 액션
     },
   },
   getters: {
-    getUsername: (state): string => state.username, // 사용자명을 가져오는 게터
+    getUserName: (state): string => state.userName, // 사용자명을 가져오는 게터
+    getIsLogin: (state): boolean => state.isLogin, // 로그인 상태를 가져오는 게터
   },
 });
