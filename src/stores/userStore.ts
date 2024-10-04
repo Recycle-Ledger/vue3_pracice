@@ -15,6 +15,9 @@ export const useUserStore = defineStore("user", {
     setUserName(name: string) {
       this.userName = name; // 사용자명을 설정하는 액션
     },
+    setIsLogin(successLogin: boolean) {
+      this.isLogin = successLogin;
+    }
   },
   getters: {
     getUserName: (state): string => state.userName, // 사용자명을 가져오는 게터
