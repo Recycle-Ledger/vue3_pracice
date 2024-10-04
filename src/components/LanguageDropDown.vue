@@ -1,10 +1,13 @@
 <template>
   <div class="relative" ref="dropdownContainer">
-    <button class="w-10 h-8 rounded-md hover:scale-95" @click="toggleDropdown">
+    <button
+      class="w-10 h-8 rounded-md hover:scale-95 flex"
+      @click="toggleDropdown"
+    >
       <img
         :src="currentFlag"
         alt="Language"
-        class="rounded-md w-full h-full shadow-md object-cover"
+        class="rounded-md w-full h-full shadow-md object-cover justify-center items-center"
       />
     </button>
 

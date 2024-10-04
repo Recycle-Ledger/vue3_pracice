@@ -3,14 +3,14 @@
     <!-- 사이드바 -->
     <SideBar v-if="isLogin" />
 
-    <div class="flex-1 flex flex-col">
+    <div class="flex flex-col">
       <!-- 상단 바 -->
       <TopBar v-if="isLogin" />
 
       <!-- 메인 윈도우 -->
       <main
         v-if="isLogin"
-        class="mt-16 p-4 bg-gray-200 flex-1 fixed overflow-y-auto -z-10"
+        class="mt-16 p-4 bg-gray-200 fixed overflow-y-auto -z-10"
         :style="
           !isSimple
             ? 'left: 256px; width: calc(100% - 256px); height: calc(100vh - 64px)'
