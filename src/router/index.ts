@@ -16,7 +16,7 @@ import Login from '../views/Login.vue';
 
 // 라우터 설정
 const routes = [
-  { path: '/', name: 'Login', component: Login }, // 기본 경로는 로그인
+  { path: '/login', name: 'Login', component: Login },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/members', name: 'Members', component: Members },
   { path: '/warehouse', name: 'Warehouse', component: Warehouse },
@@ -52,8 +52,12 @@ const routes = [
   // AI Recognition (wh)
   { path: '/ai', name: 'AiRecognition', component: AiRecognition },
   {
+    path: '/',
+    redirect: '/login', // 기본 경로를 로그인 페이지로 리다이렉트
+  },
+  {
     path: '/:pathMatch(.*)*',
-    redirect: '/dashboard',  // 404 처리로, 모든 알 수 없는 경로는 대시보드로 리다이렉트
+    redirect: '/login',  // 404 처리로, 모든 알 수 없는 경로는 로그인으로 리다이렉트
   },
 ];
 

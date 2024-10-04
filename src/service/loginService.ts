@@ -1,9 +1,7 @@
-// authService.ts
 import Cookies from "js-cookie";
-import { useUserStore } from "../stores/userStore";
+import i18n from "../i18n"; // I18n 인스턴스 가져오기
 
 const apiUrl = import.meta.env.VITE_API_URL;
-const webUrl = import.meta.env.VITE_WEB_URL;
 
 // 쿠키 조회 함수
 export function getCookie(cookieName: string): string {
@@ -26,12 +24,11 @@ export function deleteCookie(name: string): void {
 
 // 로그인 함수
 export async function login(
-  emailInput: string | null,
-  passwordInput: string | null
-): Promise<void> {
+  emailInput: string,
+  passwordInput: string
+): Promise<string> {
   const url = `${apiUrl}/api/v1/auth/login`;
-  const lang: string | undefined = Cookies.get("lang");
-
+  const { t } = i18n.global; // I18n의 글로벌 인스턴스에서 t 함수 가져오기
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -57,35 +54,29 @@ export async function login(
       // Refresh token을 쿠키에 저장
       setCookie("recycle-refresh", result.data.refreshToken);
 
-      // 언어 설정이 없는 경우 기본적으로 'ko' 설정
-      if (!lang) {
-        setCookie("lang", "ko");
-      }
-
       // 회원 정보 가져오기
-      await getMember();
-      return;
+      return await getMember();
     }
 
     // 실패
-    if (resultCode === "AUTH_002") {
-      alert(
-        lang === "ko"
-          ? "이메일과 비밀번호가 일치하지 않습니다."
-          : "Email and password do not match."
-      );
+    else if (resultCode === "AUTH_002") {
+      console.log(result);
+      alert(t("loginService.authMismatch"));
+      return "/";
     } else {
-      alert(lang === "ko" ? "로그인에 실패하였습니다." : "Login failed.");
+      console.log(result);
+      alert(`${t("loginService.loginFailed")}`);
+      return "/";
     }
-    
   } catch (error) {
     console.error(error);
-    alert("오류가 발생하였습니다. 잠시 후 다시 시도해주세요.");
+    alert(`${t("loginService.loginFailed")}`);
+    return "/";
   }
 }
 
 // 로그아웃 함수
-export async function logout(): Promise<void> {
+export async function logout(): Promise<string> {
   // access token 삭제
   sessionStorage.removeItem("recycle-token");
 
@@ -93,20 +84,18 @@ export async function logout(): Promise<void> {
   deleteCookie("recycle-refresh");
 
   // 나머지 쿠키 삭제
-  Cookies.remove("recycle-refresh");
-  Cookies.remove("companyId");
-  Cookies.remove("companyType");
-  Cookies.remove("companyName");
-  Cookies.remove("companyNameEn");
-  Cookies.remove("memberName");
-  Cookies.remove("role");
+  deleteCookie("companyId");
+  deleteCookie("companyType");
+  deleteCookie("companyName");
+  deleteCookie("companyNameEn");
+  deleteCookie("memberName");
+  deleteCookie("role");
 
-  // 로그인 페이지로 리다이렉션 -> vue-router로 바꾸기
-  location.href = `${webUrl}/login`;
+  return "/login";
 }
 
 // 회원 정보 조회 함수
-export async function getMember(): Promise<void> {
+export async function getMember(): Promise<string> {
   const url = `${apiUrl}/api/v1/auth/info`;
 
   try {
@@ -118,43 +107,50 @@ export async function getMember(): Promise<void> {
 
     const result = await response.json();
 
+    const { t } = i18n.global; // I18n의 글로벌 인스턴스에서 t 함수 가져오기
+
     if (result.code === "200") {
       // 기존 쿠키 삭제 및 새로운 데이터 설정
-      Cookies.remove("memberName");
-      Cookies.remove("companyId");
-      Cookies.remove("companyName");
-      Cookies.remove("companyNameEn");
-      Cookies.remove("companyType");
-      Cookies.remove("role");
+      // 쿠키 삭제
+      deleteCookie("memberName");
+      deleteCookie("companyId");
+      deleteCookie("companyName");
+      deleteCookie("companyNameEn");
+      deleteCookie("companyType");
+      deleteCookie("role");
 
-      Cookies.set("memberName", result.data.memberName);
-      Cookies.set("companyId", result.data.companyId);
-      Cookies.set("companyName", result.data.companyName);
-      Cookies.set("companyNameEn", result.data.companyEnglishName);
-      Cookies.set("companyType", result.data.companyType);
-      Cookies.set("role", result.data.role);
+      // 쿠키 설정
+      setCookie("memberName", result.data.memberName);
+      setCookie("companyId", result.data.companyId);
+      setCookie("companyName", result.data.companyName);
+      setCookie("companyNameEn", result.data.companyEnglishName);
+      setCookie("companyType", result.data.companyType);
+      setCookie("role", result.data.role);
 
+      // 새 회원일 경우 비밀번호 변경 페이지로 이동
       if (result.data.newMember) {
-        location.href = `${webUrl}/password/change`;
+        return "/password/change";
       } else {
-        location.href = `${webUrl}/${result.data}/dashboard`;
+        return "/dashboard";
       }
-    } else if (result.code === "AUTH_002") {
+    }
+
+    if (result.code === "AUTH_002") {
       const refreshed = await refreshToken(getCookie("recycle-refresh"));
       if (refreshed) {
-        await getMember();
-      } else {
-        location.href = `${webUrl}/login`;
+        return await getMember(); // 토큰이 갱신되면 회원 정보 다시 요청
       }
     } else if (result.code === "AUTH_005") {
       alert(result.message);
-      location.href = `${webUrl}/login`;
     } else {
       console.log(result);
-      alert("오류가 발생하였습니다. 잠시후 다시 시도해주세요. (getUserInfo)");
+      alert(`${t("loginService.loginFailed")}`);
     }
+
+    return "/login"; // 로그인 페이지로 리다이렉트
   } catch (error) {
     console.error(error);
+    return "/login"; // 오류 발생 시 로그인 페이지로 리다이렉트
   }
 }
 
@@ -178,7 +174,6 @@ export async function refreshToken(token: string | null): Promise<boolean> {
       sessionStorage.setItem("recycle-token", "Bearer " + result.data);
       return true;
     } else {
-      location.href = `${webUrl}/login`;
       return false;
     }
   } catch (error) {

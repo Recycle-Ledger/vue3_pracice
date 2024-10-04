@@ -44,7 +44,7 @@
               </li>
             </ul>
           </li>
-          <li class="">
+          <li class="hover:cursor-pointer" @click="handleLogout">
             <p>현재 사용자 유형: {{ userName }}</p>
           </li>
         </ul>
@@ -57,6 +57,9 @@
 import { ref, computed } from "vue";
 import { useUserStore } from "../stores/userStore.ts";
 import { useSidebarStore } from "../stores/sideBarStore.ts"; // 사이드바 스토어 추가
+import { useRouter } from "vue-router"; // Vue Router 임포트
+import { logout } from "../service/loginService.ts"; // 로그아웃 함수
+
 // 사용자 유형 리스트
 const userTypes: string[] = ["TR", "PH", "PS", "AU", "WH"];
 
@@ -75,7 +78,7 @@ const toggleDropdown = (): void => {
 };
 
 // 사용자 유형 선택 함수
-const selectUserType = (type: string):void => {
+const selectUserType = (type: string): void => {
   userStore.setUserName(type); // 사용자 유형 설정
   toggleDropdown(); // 드롭다운 닫기
 };
@@ -86,6 +89,16 @@ const isSimple = computed<Boolean>(() => sideBarStore.isSimple);
 // 사이드바 토글 함수
 const toggleSidebar = (): void => {
   sideBarStore.toggleSidebar(); // 사이드바 열림/닫힘 토글
+};
+
+// Vue Router 사용
+const router = useRouter();
+
+// 로그아웃 처리 함수
+const handleLogout = async (): Promise<void> => {
+  userStore.setIsLogin(false);
+  await logout(); // 로그아웃 실행 (쿠키 및 세션 정리)
+  router.replace({ path: "/login" }); // 로그아웃 후 로그인 페이지로 리다이렉트
 };
 </script>
 

@@ -26,19 +26,31 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { computed, watch } from "vue";
+import { useUserStore } from "./stores/userStore"; // Pinia 스토어 사용
+import { useSidebarStore } from "./stores/sideBarStore"; // 사이드바 스토어
 import TopBar from "./components/TopBar.vue";
 import SideBar from "./components/SideBar.vue";
-import { useSidebarStore } from "./stores/sideBarStore";
-import { useUserStore } from "./stores/userStore";
-import { ref, computed } from "vue";
 import Login from "./views/Login.vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const sideBarStore = useSidebarStore();
-const isSimple = computed < Boolean > (() => sideBarStore.isSimple);
+const isSimple = computed(() => sideBarStore.isSimple);
 
-const userState = useUserStore();
-const isLogin = computed < Boolean > (() => useUserStore.isLogin);
+// Pinia에서 isLogin 상태를 가져옴
+const userStore = useUserStore();
+const isLogin = computed(() => userStore.getIsLogin);
+
+// isLogin 상태 변화를 감지하는 watch
+watch(isLogin, () => {
+  if (isLogin) {
+    router.replace("/dashboard");
+  } else {
+    router.replace("/");
+  }
+});
 </script>
 
 <style scoped></style>
