@@ -23,4 +23,5 @@ export const useUserStore = defineStore("user", {
     getUserName: (state): string => state.userName, // 사용자명을 가져오는 게터
     getIsLogin: (state): boolean => state.isLogin, // 로그인 상태를 가져오는 게터
   },
+  persist: true
 });
