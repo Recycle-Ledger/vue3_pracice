@@ -5,55 +5,46 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 
 // 로그인 함수
-export async function login(
-  emailInput: string,
-  passwordInput: string
-): Promise<string> {
+export async function login(emailInput: string, passwordInput: string): Promise<any> {
   const url = `${apiUrl}/api/v1/auth/login`;
-  const { t } = i18n.global; // I18n의 글로벌 인스턴스에서 t 함수 가져오기
+
   try {
     const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: emailInput,
-        password: passwordInput,
-      }),
-      redirect: "follow",
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: emailInput, password: passwordInput }),
     });
 
     const result = await response.json();
     const resultCode: string = result.code;
 
-    // 성공
-    if (resultCode === "200") {
-      // Access token을 sessionStorage에 저장
-      sessionStorage.setItem(
-        "recycle-token",
-        `Bearer ${result.data.accessToken}`
-      );
+    if (resultCode === '200') {
+      // Access token을 세션 스토리지에 저장
+      sessionStorage.setItem('recycle-token', `Bearer ${result.data.accessToken}`);
 
-      // Refresh token을 쿠키에 저장
-      setCookie("recycle-refresh", result.data.refreshToken);
-
-      // 회원 정보 가져오기
-      return await getMember();
-    }
-
-    // 실패
-    else if (resultCode === "AUTH_002") {
-      console.log(result);
-      alert(t("loginService.authMismatch"));
-      return "/";
+      // 로그인 성공 시 사용자 정보를 반환 (Pinia에서 처리)
+      return {
+        success: true,
+        userInfo: {
+          memberName: result.data.memberName,
+          companyId: result.data.companyId,
+          companyName: result.data.companyName,
+          companyNameEn: result.data.companyEnglishName,
+          companyType: result.data.companyType,
+          role: result.data.role,
+        },
+      };
+    } else if (resultCode === 'AUTH_002') {
+      alert('이메일과 비밀번호가 일치하지 않습니다.');
+      return { success: false };
     } else {
-      console.log(result);
-      alert(`${t("loginService.loginFailed")}`);
-      return "/";
+      alert('로그인에 실패하였습니다.');
+      return { success: false };
     }
   } catch (error) {
     console.error(error);
-    alert(`${t("loginService.loginFailed")}`);
-    return "/";
+    alert('로그인 중 오류가 발생했습니다.');
+    return { success: false };
   }
 }
 
@@ -61,18 +52,8 @@ export async function login(
 export async function logout(): Promise<string> {
   // access token 삭제
   sessionStorage.removeItem("recycle-token");
-
   // refresh token 삭제
   deleteCookie("recycle-refresh");
-
-  // 나머지 쿠키 삭제
-  deleteCookie("companyId");
-  deleteCookie("companyType");
-  deleteCookie("companyName");
-  deleteCookie("companyNameEn");
-  deleteCookie("memberName");
-  deleteCookie("role");
-
   return "/login";
 }
 

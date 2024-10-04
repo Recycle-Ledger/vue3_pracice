@@ -78,6 +78,8 @@ onMounted(async () => {
     router.push("/dashboard");
   } else {
     // 로그인되지 않은 상태라면 로그아웃 실행
+    userStore.clearUserInfo(); // Pinia 상태 초기화
+    router.push("/login");
     await logout();
   }
 });
@@ -121,12 +123,13 @@ const handleLogin = async (): Promise<void> => {
   }
 
   // 유효성 검사가 모두 통과된 경우 로그인 처리
-  const redirectPath: string = await login(email.value, password.value); // login 함수가 URL을 반환한다고 가정
+  const loginResult: string = await login(email.value, password.value); // login 함수가 URL을 반환한다고 가정
 
-  if (redirectPath === "/dashboard") {
-    userStore.setIsLogin(true); // Pinia 상태 업데이트
+  if (loginResult.success) {
+    // Pinia 상태에 사용자 정보 저장
+    userStore.setUserInfo(loginResult.userInfo);
   } else {
-    userStore.setIsLogin(false);
+    userStore.clearUserInfo();
   }
 };
 </script>

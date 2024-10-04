@@ -2,26 +2,57 @@ import { defineStore } from "pinia";
 
 // 유저 상태 타입
 interface UserState {
-  userName: string;
+  memberName: string;
+  companyId: string;
+  companyName: string;
+  companyNameEn: string;
+  companyType: string;
+  role: string;
   isLogin: boolean;
 }
 
 export const useUserStore = defineStore("user", {
   state: (): UserState => ({
-    userName: "WH", // 사용자명을 저장할 상태
-    isLogin: false // 로그인 여부를 알려주는 임시 변수 -> 추후 토큰 여부로 판단
+    memberName: '',
+    companyId: '',
+    companyName: '',
+    companyNameEn: '',
+    companyType: '',
+    role: '',
+    isLogin: false,
   }),
   actions: {
-    setUserName(name: string) {
-      this.userName = name; // 사용자명을 설정하는 액션
+  setUserInfo(data: Partial<UserState>) {
+      this.memberName = data.memberName || '';
+      this.companyId = data.companyId || '';
+      this.companyName = data.companyName || '';
+      this.companyNameEn = data.companyNameEn || '';
+      this.companyType = data.companyType || '';
+      this.role = data.role || '';
+      this.isLogin = true;
     },
-    setIsLogin(successLogin: boolean) {
-      this.isLogin = successLogin;
-    }
+    loadUserInfo() {
+      const userData = sessionStorage.getItem('user');
+      if (userData) {
+        Object.assign(this.$state, JSON.parse(userData));
+      }
+    },
+    clearUserInfo() {
+      this.memberName = '';
+      this.companyId = '';
+      this.companyName = '';
+      this.companyNameEn = '';
+      this.companyType = '';
+      this.role = '';
+      this.isLogin = false;
+
+      // 세션 스토리지에서 상태 제거
+      sessionStorage.removeItem('user');
+    },
   },
   getters: {
-    getUserName: (state): string => state.userName, // 사용자명을 가져오는 게터
-    getIsLogin: (state): boolean => state.isLogin, // 로그인 상태를 가져오는 게터
+    // `isLogin`을 반환하는 getter
+    getIsLogin: (state): boolean => state.isLogin,
   },
   persist: true
 });

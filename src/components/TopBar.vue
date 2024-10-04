@@ -96,7 +96,7 @@ const router = useRouter();
 
 // 로그아웃 처리 함수
 const handleLogout = async (): Promise<void> => {
-  userStore.setIsLogin(false);
+  userStore.clearUserInfo();
   await logout(); // 로그아웃 실행 (쿠키 및 세션 정리)
   router.replace({ path: "/login" }); // 로그아웃 후 로그인 페이지로 리다이렉트
 };
