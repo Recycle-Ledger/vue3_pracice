@@ -4,8 +4,8 @@
   >
     <div class="flex flex-col w-10/12 h-full justify-center items-center gap-4">
       <div class="w-10/12 text-end relative">
-        <!-- DropDown 컴포넌트 호출 -->
-        <DropDown />
+        <!-- LanguageDropDown 컴포넌트 호출 -->
+        <LanguageDropDown />
       </div>
       <img src="/assets/images/logo1.png" class="object-cover w-10/12" />
 
@@ -64,14 +64,23 @@ import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n"; // 다국어 지원을 위한 훅
 import { login, logout } from "../service/loginService";
 import { useUserStore } from "../stores/userStore";
-import DropDown from "../components/LanguageDropDown.vue"; // LanguageDropDown.vue 컴포넌트 임포트
+import LanguageDropDown from "../components/LanguageDropDown.vue"; // LanguageDropDown.vue 컴포넌트 임포트
+import { useRouter } from "vue-router";
 
-// 컴포넌트가 마운트되면 로그아웃 실행
-onMounted(async () => {
-  await logout(); // 로그아웃 실행
-});
-
+const router = useRouter();
 const userStore = useUserStore();
+
+// 컴포넌트가 마운트될 때 로그인 상태를 확인하여 리다이렉트 처리
+onMounted(async () => {
+  // 로그인 상태 확인
+  if (userStore.isLogin) {
+    // 로그인된 상태라면 대시보드로 이동
+    router.push("/dashboard");
+  } else {
+    // 로그인되지 않은 상태라면 로그아웃 실행
+    await logout();
+  }
+});
 
 // v-model
 const email = ref<string>(""); // 이메일의 타입 문자열
