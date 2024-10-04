@@ -10,11 +10,16 @@
         class="rounded-md w-full h-full shadow-md object-cover justify-center items-center"
       />
     </button>
-
+    <!-- 백드롭 -->
+    <div
+      v-if="isDropdownOpen"
+      class="fixed inset-0 bg-opacity-0 z-20"
+      @click="toggleDropdown"
+    ></div>
     <!-- 드롭다운 메뉴 -->
     <div
       v-if="isDropdownOpen"
-      class="absolute right-0 mt-2 w-32 bg-white border rounded-md shadow-lg transform transition-all duration-300 ease-out"
+      class="absolute right-0 mt-2 w-32 z-30 bg-white border rounded-md shadow-lg transform transition-all duration-300 ease-out"
       :class="{
         'opacity-100 scale-100': isDropdownOpen,
         'opacity-0 scale-95': !isDropdownOpen,
@@ -74,27 +79,6 @@ const changeLanguage = (language: string) => {
   // 드롭다운을 닫기
   isDropdownOpen.value = false;
 };
-
-// 전역 클릭 이벤트를 감지하여 드롭다운 외부 클릭 시 닫기
-const handleClickOutside = (event: MouseEvent) => {
-  const dropdown = dropdownContainer.value;
-  if (dropdown && !dropdown.contains(event.target as Node)) {
-    isDropdownOpen.value = false; // 외부 클릭 시 드롭다운 닫기
-  }
-};
-
-// 드롭다운 컨테이너 참조
-const dropdownContainer = ref<HTMLElement | null>(null);
-
-// 컴포넌트가 마운트될 때 전역 클릭 이벤트 추가
-onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
-});
-
-// 컴포넌트가 언마운트될 때 전역 클릭 이벤트 제거
-onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
-});
 </script>
 
 <style scoped></style>

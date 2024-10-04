@@ -15,11 +15,13 @@
       />
       <nav>
         <ul class="flex space-x-4 justify-center items-center">
+          <!-- 도움말 버튼 -->
           <li>
             <button class="flex items-center rounded hover:bg-gray-300 w-8 h-8">
               <QuestionMarkCircleIcon class="w-full" />
             </button>
           </li>
+          <!-- 언어 드롭다운 -->
           <li>
             <LanguageDropDown />
           </li>
@@ -32,27 +34,32 @@
               <UserIcon class="w-8 h-8" />
               <!-- 세로로 사용자 정보 표시 -->
               <div class="flex flex-col h-full items-start justify-center">
-                <p class="text-base">{{ userName }}</p>
+                <p class="text-base">{{ memberName }}</p>
                 <p class="text-sm text-gray-500">{{ currentCompanyName }}</p>
               </div>
             </div>
-
+            <!-- 백드롭 -->
+            <div
+              v-if="isDropdownOpen"
+              class="fixed inset-0 bg-black bg-opacity-0 z-20"
+              @click="toggleDropdown"
+            ></div>
             <!-- 드롭다운 메뉴 -->
             <ul
               v-if="isDropdownOpen"
-              class="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg"
+              class="absolute right-0 mt-2 w-32 z-30 bg-white border rounded-md shadow-lg"
             >
               <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <span>Profile</span>
+                <span>{{ t("topBar.profile") }}</span>
               </li>
               <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <span>Password</span>
+                <span>{{ t("topBar.password") }}</span>
               </li>
               <li
                 class="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                 @click="handleLogout"
               >
-                <span>Logout</span>
+                <span>{{ t("topBar.logout") }}</span>
               </li>
             </ul>
           </li>
@@ -68,19 +75,19 @@ import { useUserStore } from "../stores/userStore.ts";
 import { useSidebarStore } from "../stores/sideBarStore.ts";
 import { useRouter } from "vue-router";
 import { logout } from "../service/loginService.ts";
-import LanguageDropDown from "../components/LanguageDropDown.vue"; // 언어 드롭다운 컴포넌트 임포트
+import LanguageDropDown from "../components/LanguageDropDown.vue";
 import { Bars3Icon } from "@heroicons/vue/24/outline";
 import { QuestionMarkCircleIcon, UserIcon } from "@heroicons/vue/24/solid";
 import { useI18n } from "vue-i18n";
 
 // 다국어 지원
-const { locale } = useI18n();
+const { t, locale } = useI18n();
 const currentLocale = computed(() => locale.value);
 
 // Pinia user 스토어 사용
 const userStore = useUserStore();
 // 사용자 정보 가져오기
-const userName = computed<string>(() => userStore.getMemberName);
+const memberName = computed<string>(() => userStore.memberName);
 const currentCompanyName = computed<string>(() =>
   currentLocale.value === "en" ? userStore.companyNameEn : userStore.companyName
 );
@@ -90,12 +97,6 @@ const isDropdownOpen = ref<boolean>(false);
 // 드롭다운 토글 함수
 const toggleDropdown = (): void => {
   isDropdownOpen.value = !isDropdownOpen.value;
-};
-
-// 사용자 유형 선택 함수
-const selectUserType = (type: string): void => {
-  userStore.setUserName(type);
-  toggleDropdown();
 };
 
 // pinia 사이드바 스토어 사용
