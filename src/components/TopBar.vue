@@ -17,8 +17,8 @@
           <li>
             <p>도움말</p>
           </li>
-          <li>
-            <p>언어</p>
+          <li class="max-w-[100px]">
+            <LanguageDropDown />
           </li>
           <li class="relative">
             <p class="cursor-pointer" @click="toggleDropdown">
@@ -56,15 +56,16 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useUserStore } from "../stores/userStore.ts";
-import { useSidebarStore } from "../stores/sideBarStore.ts"; // 사이드바 스토어 추가
-import { useRouter } from "vue-router"; // Vue Router 임포트
-import { logout } from "../service/loginService.ts"; // 로그아웃 함수
+import { useSidebarStore } from "../stores/sideBarStore.ts";
+import { useRouter } from "vue-router";
+import { logout } from "../service/loginService.ts";
+import LanguageDropDown from "../components/LanguageDropDown.vue"; // 언어 드롭다운 컴포넌트 임포트
 
 // 사용자 유형 리스트
 const userTypes: string[] = ["TR", "PH", "PS", "AU", "WH"];
 
 // 드롭다운 상태 관리
-const isDropdownOpen = ref<Boolean>(false);
+const isDropdownOpen = ref<boolean>(false);
 
 // Pinia user 스토어 사용
 const userStore = useUserStore();
@@ -79,16 +80,17 @@ const toggleDropdown = (): void => {
 
 // 사용자 유형 선택 함수
 const selectUserType = (type: string): void => {
-  userStore.setUserName(type); // 사용자 유형 설정
-  toggleDropdown(); // 드롭다운 닫기
+  userStore.setUserName(type);
+  toggleDropdown();
 };
 
 // pinia 사이드바 스토어 사용
 const sideBarStore = useSidebarStore();
-const isSimple = computed<Boolean>(() => sideBarStore.isSimple);
+const isSimple = computed<boolean>(() => sideBarStore.isSimple);
+
 // 사이드바 토글 함수
 const toggleSidebar = (): void => {
-  sideBarStore.toggleSidebar(); // 사이드바 열림/닫힘 토글
+  sideBarStore.toggleSidebar();
 };
 
 // Vue Router 사용
@@ -97,8 +99,8 @@ const router = useRouter();
 // 로그아웃 처리 함수
 const handleLogout = async (): Promise<void> => {
   userStore.clearUserInfo();
-  await logout(); // 로그아웃 실행 (쿠키 및 세션 정리)
-  router.replace({ path: "/login" }); // 로그아웃 후 로그인 페이지로 리다이렉트
+  await logout();
+  router.replace({ path: "/login" });
 };
 </script>
 
