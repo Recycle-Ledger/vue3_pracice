@@ -13,37 +13,37 @@ interface UserState {
 
 export const useUserStore = defineStore("user", {
   state: (): UserState => ({
-    memberName: '',
-    companyId: '',
-    companyName: '',
-    companyNameEn: '',
-    companyType: '',
-    role: '',
+    memberName: "",
+    companyId: "",
+    companyName: "",
+    companyNameEn: "",
+    companyType: "",
+    role: "",
     isLogin: false,
   }),
   actions: {
-  setUserInfo(data: Partial<UserState>) {
-      this.memberName = data.memberName || '';
-      this.companyId = data.companyId || '';
-      this.companyName = data.companyName || '';
-      this.companyNameEn = data.companyNameEn || '';
-      this.companyType = data.companyType || '';
-      this.role = data.role || '';
+    setUserInfo(data: Partial<UserState>) {
+      this.memberName = data.memberName || "";
+      this.companyId = data.companyId || "";
+      this.companyName = data.companyName || "";
+      this.companyNameEn = data.companyNameEn || "";
+      this.companyType = data.companyType || "";
+      this.role = data.role || "";
       this.isLogin = true;
     },
     loadUserInfo() {
-      const userData = sessionStorage.getItem('user');
+      const userData = sessionStorage.getItem("user");
       if (userData) {
         Object.assign(this.$state, JSON.parse(userData));
       }
     },
     clearUserInfo() {
-      this.memberName = '';
-      this.companyId = '';
-      this.companyName = '';
-      this.companyNameEn = '';
-      this.companyType = '';
-      this.role = '';
+      this.memberName = "";
+      this.companyId = "";
+      this.companyName = "";
+      this.companyNameEn = "";
+      this.companyType = "";
+      this.role = "";
       this.isLogin = false;
     },
   },
@@ -51,5 +51,5 @@ export const useUserStore = defineStore("user", {
     // `isLogin`을 반환하는 getter
     getIsLogin: (state): boolean => state.isLogin,
   },
-  persist: true
+  persist: true,
 });

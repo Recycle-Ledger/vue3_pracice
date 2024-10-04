@@ -2,6 +2,14 @@ import { createI18n } from "vue-i18n";
 
 const messages = {
   en: {
+    topBar: {
+      help: "Help",
+      language: "Language",
+      profile: "Profile",
+      password: "Password",
+      logout: "Logout",
+      userType: "Select User Type",
+    },
     loginVue: {
       emailPlaceholder: "Please enter your email",
       passwordPlaceholder: "Please enter your password",
@@ -18,6 +26,14 @@ const messages = {
     },
   },
   ko: {
+    topBar: {
+      help: "도움말",
+      language: "언어",
+      profile: "프로필",
+      password: "비밀번호",
+      logout: "로그아웃",
+      userType: "사용자 유형 선택",
+    },
     loginVue: {
       emailPlaceholder: "이메일을 입력하세요",
       passwordPlaceholder: "패스워드를 입력하세요",
@@ -34,6 +50,7 @@ const messages = {
     },
   },
 };
+
 
 const i18n = createI18n({
   legacy: false, // Composition API 사용
