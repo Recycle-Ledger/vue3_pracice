@@ -9,15 +9,22 @@
   >
     <div class="mx-auto flex justify-between items-center">
       <!-- 사이드바 토글 버튼 -->
-      <div class="text-lg font-bold cursor-pointer" @click="toggleSidebar">
-        =
-      </div>
+      <Bars3Icon
+        class="text-lg font-bold cursor-pointer h-8 w-8 hover:scale-90"
+        @click="toggleSidebar"
+      />
       <nav>
         <ul class="flex space-x-4">
           <li>
-            <p>도움말</p>
+            <button class="flex items-center rounded hover:bg-gray-300">
+              <img
+                src="/assets/images/icon_notice.svg"
+                alt="Help"
+                class="w-8 h-8"
+              />
+            </button>
           </li>
-          <li class="max-w-[100px]">
+          <li>
             <LanguageDropDown />
           </li>
           <li class="relative">
@@ -60,6 +67,7 @@ import { useSidebarStore } from "../stores/sideBarStore.ts";
 import { useRouter } from "vue-router";
 import { logout } from "../service/loginService.ts";
 import LanguageDropDown from "../components/LanguageDropDown.vue"; // 언어 드롭다운 컴포넌트 임포트
+import { Bars3Icon } from "@heroicons/vue/24/outline";
 
 // 사용자 유형 리스트
 const userTypes: string[] = ["TR", "PH", "PS", "AU", "WH"];

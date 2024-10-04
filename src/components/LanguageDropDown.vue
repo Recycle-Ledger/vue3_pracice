@@ -1,6 +1,6 @@
 <template>
   <div class="relative" ref="dropdownContainer">
-    <button class="w-10 h-8 rounded-md" @click="toggleDropdown">
+    <button class="w-10 h-8 rounded-md hover:scale-95" @click="toggleDropdown">
       <img
         :src="currentFlag"
         alt="Language"
