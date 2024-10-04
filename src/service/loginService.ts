@@ -26,7 +26,7 @@ export async function login(
         "recycle-token",
         `Bearer ${result.data.accessToken}`
       );
-      setCookie("recycle-refresh", result.data.accessToken)
+      setCookie("recycle-refresh", result.data.refreshToken)
       return true;
     } else if (resultCode === "AUTH_002") {
       alert("이메일과 비밀번호가 일치하지 않습니다.");
