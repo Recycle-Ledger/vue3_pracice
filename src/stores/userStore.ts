@@ -45,9 +45,6 @@ export const useUserStore = defineStore("user", {
       this.companyType = '';
       this.role = '';
       this.isLogin = false;
-
-      // 세션 스토리지에서 상태 제거
-      sessionStorage.removeItem('user');
     },
   },
   getters: {

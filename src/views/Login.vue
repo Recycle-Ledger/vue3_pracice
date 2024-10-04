@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n"; // 다국어 지원을 위한 훅
-import { login, logout } from "../service/loginService";
+import { login, logout, getMember } from "../service/loginService";
 import { useUserStore } from "../stores/userStore";
 import LanguageDropDown from "../components/LanguageDropDown.vue"; // LanguageDropDown.vue 컴포넌트 임포트
 import { useRouter } from "vue-router";
@@ -123,12 +123,15 @@ const handleLogin = async (): Promise<void> => {
   }
 
   // 유효성 검사가 모두 통과된 경우 로그인 처리
-  const loginResult: string = await login(email.value, password.value); // login 함수가 URL을 반환한다고 가정
-
-  if (loginResult.success) {
-    // Pinia 상태에 사용자 정보 저장
-    userStore.setUserInfo(loginResult.userInfo);
+  const loginResult = await login(email.value, password.value); // login 함수 호출
+  if (loginResult) {
+    const memberInfo = await getMember(); // 회원 정보 조회
+    if (memberInfo.success) {
+      // Pinia 상태에 사용자 정보 저장
+      userStore.setUserInfo(memberInfo.userInfo);
+    }
   } else {
+    // 로그인 실패 시 상태 초기화
     userStore.clearUserInfo();
   }
 };
