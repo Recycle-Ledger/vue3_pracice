@@ -1,7 +1,7 @@
 <template>
   <aside
     :class="isSimple ? 'w-[80px]' : 'min-w-[256px]'"
-    class="fixed bg-white min-h-screen py-4 shadow-md transition-all duration-300"
+    class="fixed bg-white min-h-screen py-4 shadow-md transition-all duration-300 left-0"
   >
     <h2 class="text-lg font-bold mb-4 text-center">
       <img
@@ -91,7 +91,12 @@
                 </li>
               </ul>
             </div>
-            <router-link v-else @click="clickMenu(index)" :to="menu.route" class="w-full">
+            <router-link
+              v-else
+              @click="clickMenu(index)"
+              :to="menu.route"
+              class="w-full"
+            >
               <p class="pl-4">
                 {{ menu.name }}
               </p>

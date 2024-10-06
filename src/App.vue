@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="flex min-w-[648px]">
+  <div id="app" class="flex min-w-[648px] justify-center">
     <!-- 사이드바 -->
     <SideBar v-if="isLogin" />
 

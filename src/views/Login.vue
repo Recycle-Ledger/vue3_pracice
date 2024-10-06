@@ -3,7 +3,7 @@
     class="min-w-[500px] max-w-[700px] w-dvw h-dvh mx-auto p-5 flex justify-center"
   >
     <div class="flex flex-col w-10/12 h-full justify-center items-center gap-4">
-      <div class="w-10/12 text-end relative">
+      <div class="w-10/12 text-end relative justify-end flex">
         <!-- LanguageDropDown 컴포넌트 호출 -->
         <LanguageDropDown />
       </div>
