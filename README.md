@@ -46,9 +46,11 @@ yarn build
 src/
 │
 ├── components/      # 재사용 가능한 Vue 컴포넌트
-├── pages/           # 페이지 단위의 컴포넌트 (라우터에 연결)
+├── views/           # 페이지 단위의 컴포넌트 (라우터에 연결)
 ├── router/          # Vue Router 설정 파일
 ├── store/           # Pinia 상태 관리 관련 파일
+├── interface/       # TS type 관리 관련 파일
+├── constants/       # TS 상수 관리 관련 파일
 └── main.ts          # 애플리케이션 진입점
 ```
 
