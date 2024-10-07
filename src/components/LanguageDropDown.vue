@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { locale } = useI18n(); // 다국어 설정 훅
@@ -61,7 +61,11 @@ const { locale } = useI18n(); // 다국어 설정 훅
 const isDropdownOpen = ref<boolean>(false);
 
 // 현재 선택된 언어에 따른 깃발 이미지
-const currentFlag = ref<string>("/assets/flags/ko.svg");
+const currentFlag = computed<string>(() => {
+  return locale.value === "ko"
+    ? "/assets/flags/ko.svg"
+    : "/assets/flags/us.svg";
+});
 
 // 드롭다운 열기/닫기
 const toggleDropdown = (): void => {
@@ -71,10 +75,6 @@ const toggleDropdown = (): void => {
 // 언어 변경 함수
 const changeLanguage = (language: string) => {
   locale.value = language;
-
-  // 선택한 언어에 따라 플래그 이미지를 변경
-  currentFlag.value =
-    language === "ko" ? "/assets/flags/ko.svg" : "/assets/flags/us.svg";
 
   // 드롭다운을 닫기
   isDropdownOpen.value = false;
