@@ -38,7 +38,9 @@
                 }"
               >
                 <component :is="menu.icon" class="w-6 h-6" />
-                <p v-if="!isSimple">{{ menu.name }}</p>
+                <p v-if="!isSimple">
+                  {{ t(`sidebar.${menu.name}`) }}
+                </p>
               </span>
               <div v-if="!isSimple" class="w-6 h-6">
                 <ChevronDownIcon v-if="isOpen(index)" />
@@ -62,7 +64,8 @@
                       clickedMenu === index && clickedChildMenu === idx,
                   }"
                 >
-                  - {{ child.name }}
+                  <!-- i18n 적용: child.name을 번역된 텍스트로 변경 -->
+                  - {{ t(`sidebar.${child.name}`) }}
                 </router-link>
               </li>
             </ul>
@@ -81,7 +84,10 @@
           >
             <!-- 메뉴 아이콘 -->
             <component :is="menu.icon" class="w-6 h-6" />
-            <p v-if="!isSimple">{{ menu.name }}</p>
+            <!-- i18n 적용: menu.name을 번역된 텍스트로 변경 -->
+            <p v-if="!isSimple">
+              {{ t(`sidebar.${menu.name}`) }}
+            </p>
           </router-link>
 
           <!-- 툴팁 -->
@@ -91,8 +97,9 @@
             v-if="isSimple && tooltipIndex === index"
           >
             <div v-if="menu.children" class="w-full">
+              <!-- i18n 적용: menu.name을 번역된 텍스트로 변경 -->
               <p class="w-full pl-4">
-                {{ menu.name }}
+                {{ t(`sidebar.${menu.name}`) }}
               </p>
 
               <!-- 하위 메뉴 -->
@@ -106,7 +113,8 @@
                   class="hover:bg-white text-sm py-2 px-4 w-full cursor-pointer"
                 >
                   <router-link :to="child.route">
-                    - {{ child.name }}
+                    <!-- i18n 적용: child.name을 번역된 텍스트로 변경 -->
+                    - {{ t(`sidebar.${child.name}`, child.defaultName) }}
                   </router-link>
                 </li>
               </ul>
@@ -117,8 +125,9 @@
               :to="menu.route"
               class="w-full"
             >
+              <!-- i18n 적용: menu.name을 번역된 텍스트로 변경 -->
               <p class="pl-4">
-                {{ menu.name }}
+                {{ t(`sidebar.${menu.name}`) }}
               </p>
             </router-link>
           </div>
@@ -134,7 +143,9 @@ import { useUserStore } from "../stores/userStore.ts";
 import { useSidebarStore } from "../stores/sideBarStore.ts";
 import { menuTypes } from "../constants/SideBarConstants.ts";
 import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
+import { useI18n } from "vue-i18n"; // 다국어 지원을 위한 훅
 
+const { t } = useI18n(); // 다국어 텍스트와 언어 설정 훅
 // Pinia 스토어 사용
 const userStore = useUserStore();
 const userType = computed<string>(() => userStore.getCompanyType);

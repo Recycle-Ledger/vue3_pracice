@@ -4,6 +4,7 @@ export interface MenuItem {
   name: string;
   route?: string;
   icon: Component;
+  defaultName: string;
   children?: MenuItem[];
 }
 
