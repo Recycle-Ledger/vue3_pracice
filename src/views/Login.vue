@@ -16,7 +16,7 @@
           v-model="email"
           @input="clearEmailError"
           :class="{ 'outline-red-500': emailError }"
-          class="h-12 w-full rounded-md px-4 border border-gray-300"
+          class="h-12 w-full rounded-md px-4 border border-gray-300 focus:scale-105 transition-all duration-300 ease-in-out"
           :placeholder="t('loginVue.emailPlaceholder')"
           ref="emailInput"
           required
@@ -33,7 +33,7 @@
           v-model="password"
           @input="clearPasswordError"
           :class="{ 'outline-red-500': passwordError }"
-          class="h-12 w-full rounded-md px-4 border border-gray-300"
+          class="h-12 w-full rounded-md px-4 border border-gray-300 focus:scale-105 transition-all duration-300 ease-in-out"
           :placeholder="t('loginVue.passwordPlaceholder')"
           ref="passwordInput"
           required
@@ -44,14 +44,14 @@
       </div>
 
       <button
-        class="h-12 w-10/12 rounded-md px-4 bg-[#6DD298] text-white font-bold"
+        class="h-12 w-10/12 rounded-md px-4 bg-[#6DD298] text-white font-bold hover:bg-[#4CAF50] hover:bg-opacity-80 hover:scale-95 hover:text-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out"
         @click="handleLogin"
       >
         {{ t("loginVue.loginButton") }}
       </button>
 
       <button
-        class="h-12 w-10/12 rounded-md px-4 bg-[#6DD298] text-white font-bold"
+        class="h-12 w-10/12 rounded-md px-4 bg-[#6DD298] text-white font-bold hover:bg-[#4CAF50] hover:bg-opacity-80 hover:scale-95 hover:text-gray-100 hover:shadow-lg transition-all duration-300 ease-in-out"
       >
         {{ t("loginVue.FindPasswordButton") }}
       </button>
