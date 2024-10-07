@@ -1,19 +1,19 @@
 <template>
   <aside
     :class="isSimple ? 'w-[80px]' : 'min-w-[256px]'"
-    class="fixed bg-white min-h-screen py-4 shadow-md transition-all duration-300 left-0"
+    class="fixed bg-white min-h-screen pb-4 shadow-md transition-all duration-300 left-0 h-[100dvh]"
   >
-    <h2 class="text-lg font-bold mb-4 text-center">
+    <h2 class="h-16 flex justify-center items-center absolute">
       <img
         v-if="!isSimple"
         src="/assets/images/logo_s2_black.png"
         alt="logo_s2_black"
+        class="'h-full p-2"
       />
-      <img v-else src="/sub_logo.svg" alt="sub_logo" />
+      <img v-else src="/sub_logo.svg" alt="sub_logo" class="h-full p-2" />
     </h2>
-    <!-- 심플 모드에서는 타이틀 숨김 -->
 
-    <nav>
+    <nav class="mt-16 overflow-y-auto h-full pb-4">
       <ul>
         <li
           v-for="(menu, index) in menus"
@@ -25,45 +25,61 @@
           <div v-if="menu.children">
             <div
               @click="toggleMenu(index)"
-              class="py-2 px-4 flex justify-between"
+              class="py-2 px-4 flex justify-between items-center"
               :class="{
                 'bg-green-400': tooltipIndex === index,
               }"
             >
-              <!-- 심플 모드에서는 이름 대신 첫 글자 표시 -->
-              <span>{{
-                isSimple ? menu.name.substring(0, 2) : menu.name
-              }}</span>
-              <span v-if="!isSimple">{{ isOpen(index) ? "▼" : "▶" }}</span>
+              <span
+                class="flex items-center gap-2 w-full"
+                :class="{ 'justify-center': isSimple }"
+              >
+                <component :is="menu.icon" class="w-6 h-6" />
+                <p v-if="!isSimple">{{ menu.name }}</p>
+              </span>
+              <div v-if="!isSimple" class="w-6 h-6">
+                <ChevronDownIcon v-if="isOpen(index)" />
+                <ChevronRightIcon v-else />
+              </div>
             </div>
 
-            <ul
-              v-if="menu.children && isOpen(index) && !isSimple"
-              class="space-y-2"
-            >
-              <li v-for="(child, idx) in menu.children" :key="idx">
+            <!-- 메뉴의 하위 항목을 보여주는 부분 -->
+            <ul v-if="isOpen(index) && !isSimple" class="space-y-2">
+              <li
+                v-for="(child, idx) in menu.children"
+                :key="idx"
+                @click="clickChildMenu(index, idx)"
+              >
                 <router-link
-                  @click="clickMenu(0)"
+                  @click="clickChildMenu(index, child)"
                   :to="child.route"
                   class="block py-2 px-6 hover:bg-green-400"
+                  :class="{
+                    'bg-green-400':
+                      clickedMenu === index && clickedChildMenu === idx,
+                  }"
                 >
                   - {{ child.name }}
                 </router-link>
               </li>
             </ul>
           </div>
+
           <router-link
             v-else
             :to="menu.route"
             @click="clickMenu(index)"
-            class="block py-2 px-4"
+            class="py-2 px-4 flex items-center gap-2"
             :class="{
+              'justify-center': isSimple,
               'bg-green-400': tooltipIndex === index || clickedMenu === index,
             }"
           >
-            {{ isSimple ? menu.name.substring(0, 2) : menu.name }}
-            <!-- 심플 모드에서는 첫 글자만 표시 -->
+            <!-- 메뉴 아이콘 -->
+            <component :is="menu.icon" class="w-6 h-6" />
+            <p v-if="!isSimple">{{ menu.name }}</p>
           </router-link>
+
           <!-- 툴팁 -->
           <div
             class="absolute left-full top-0 bg-green-400 text-black w-48 pt-2"
@@ -85,7 +101,10 @@
                   :key="index"
                   class="hover:bg-white text-sm py-2 px-4 w-full"
                 >
-                  <router-link @click="clickMenu(index)" :to="child.route">
+                  <router-link
+                    @click="clickChildMenu(index, child)"
+                    :to="child.route"
+                  >
                     - {{ child.name }}
                   </router-link>
                 </li>
@@ -111,118 +130,17 @@
 <script setup lang="ts">
 import { computed, ref, onBeforeUnmount, onMounted } from "vue";
 import { useUserStore } from "../stores/userStore.ts";
-import { useSidebarStore } from "../stores/sideBarStore.ts"; // Pinia 스토어 임포트
+import { useSidebarStore } from "../stores/sideBarStore.ts";
+import { menuTypes } from "../constants/SideBarConstants.ts";
+import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
 
-// 사용자 유형을 pinia에서 가져옴, 반응형을 위해 computed사용
+// Pinia 스토어 사용
 const userStore = useUserStore();
-const userType = computed<string>(() => userStore.getUserName);
+const userType = computed<string>(() => userStore.getCompanyType);
 
 // 사이드바 상태 스토어 사용
 const sidebarStore = useSidebarStore();
-const isSimple = computed<boolean>(() => sidebarStore.isSimple); // 심플 모드인지 여부
-
-// 메뉴 타입 정의
-interface MenuItem {
-  name: string;
-  route?: string;
-  children?: MenuItem[];
-}
-
-interface MenuConfig {
-  [key: string]: MenuItem[];
-}
-
-const menuConfig: MenuConfig = {
-  TR: [
-    { name: "대시보드", route: "/dashboard" },
-    { name: "회원 목록", route: "/members" },
-    { name: "창고 목록", route: "/warehouse" },
-    { name: "구매 요청", route: "/purchase-request" },
-    { name: "구매 내역", route: "/purchase-history" },
-    { name: "재고 목록", route: "/inventory" },
-    { name: "판매 요청", route: "/sales-request" },
-    { name: "판매 내역", route: "/sales-history" },
-  ],
-  PH: [
-    { name: "대시보드", route: "/" },
-    { name: "회원 목록", route: "/members" },
-    {
-      name: "UCO",
-      children: [
-        { name: "구매 요청", route: "/uco/purchase-request" },
-        { name: "구매 내역", route: "/uco/purchase-history" },
-        { name: "재고 목록", route: "/uco/inventory" },
-      ],
-    },
-    {
-      name: "Tallow",
-      children: [
-        { name: "구매 요청", route: "/tallow/purchase-request" },
-        { name: "구매 내역", route: "/tallow/purchase-history" },
-        { name: "국산우지 내역", route: "/tallow/local-history" },
-      ],
-    },
-  ],
-  PS: [
-    { name: "대시보드", route: "/" },
-    { name: "회원 목록", route: "/members" },
-    {
-      name: "UCO",
-      children: [
-        { name: "구매 요청", route: "/uco/purchase-request" },
-        { name: "구매 내역", route: "/uco/purchase-history" },
-        { name: "재고 목록", route: "/uco/inventory" },
-        { name: "재고 달력", route: "/uco/calendar" },
-        { name: "AI 인식", route: "/uco/ai" },
-        { name: "인증 요청", route: "/uco/certification-request" },
-        { name: "인증 내역", route: "/uco/certification-history" },
-        { name: "판매 요청", route: "/uco/sales-request" },
-        { name: "판매 내역", route: "/uco/sales-history" },
-      ],
-    },
-    {
-      name: "Tallow",
-      children: [
-        { name: "국산우지 파일", route: "/tallow/local-file" },
-        { name: "국산우지 내역", route: "/tallow/local-history" },
-        { name: "국산우지 판매", route: "/tallow/local-sales" },
-        { name: "판매 요청", route: "/tallow/sales-request" },
-        { name: "판매 내역", route: "/tallow/sales-history" },
-      ],
-    },
-    {
-      name: "fish fat",
-      children: [
-        { name: "구매 요청", route: "/fishfat/purchase-request" },
-        { name: "구매 내역", route: "/fishfat/purchase-history" },
-      ],
-    },
-    {
-      name: "Statistics",
-      children: [{ name: "UCO 일별 통계", route: "/uco/daily-stats" }],
-    },
-  ],
-  AU: [
-    { name: "대시보드", route: "/" },
-    { name: "회원 목록", route: "/members" },
-    { name: "인증 요청", route: "/certification-request" },
-    { name: "인증 내역", route: "/certification-history" },
-  ],
-  WH: [
-    { name: "대시보드", route: "/" },
-    { name: "회원 목록", route: "/members" },
-    { name: "창고 목록", route: "/warehouse" },
-    { name: "구매 내역", route: "/purchase-history" },
-    { name: "재고 목록", route: "/inventory" },
-    { name: "AI 인식", route: "/ai" },
-    { name: "판매 요청", route: "/sales-request" },
-    { name: "판매 내역", route: "/sales-history" },
-    {
-      name: "Statistics",
-      children: [{ name: "UCO 일별 통계", route: "/uco/daily-stats" }],
-    },
-  ],
-};
+const isSimple = computed<boolean>(() => sidebarStore.isSimple);
 
 // 창 크기에 따라 자동으로 심플 모드로 전환
 const updateSidebarMode = () => {
@@ -248,21 +166,9 @@ onBeforeUnmount(() => {
 const openMenus = ref<number[]>([]); // 열린 메뉴의 인덱스 저장
 
 // 사용자 유형에 맞는 메뉴 가져오기
-const menus = computed<MenuItem[]>(() => {
-  return menuConfig[userType.value];
+const menus = computed(() => {
+  return menuTypes[userType.value];
 });
-
-// 특정 메뉴가 열렸는지 여부 확인
-const isOpen = (index: number): boolean => openMenus.value.includes(index);
-
-// 메뉴 접기/펼치기 토글
-const toggleMenu = (index: number): void => {
-  if (isOpen(index)) {
-    openMenus.value = openMenus.value.filter((i) => i !== index);
-  } else {
-    openMenus.value.push(index);
-  }
-};
 
 const tooltipIndex = ref<number>(-1); // 현재 툴팁이 보이는 메뉴 인덱스
 
@@ -276,9 +182,32 @@ const hideTooltip = (): void => {
   tooltipIndex.value = -1;
 };
 
-const clickedMenu = ref<number>(0);
-const clickMenu = (idx: number) => {
-  clickedMenu.value = idx;
+// 메뉴 클릭 상태 관리
+const clickedMenu = ref<number | null>(null);
+const clickedChildMenu = ref<number | null>(null);
+
+// 상위 메뉴 클릭 시 처리
+const clickMenu = (index: number) => {
+  clickedMenu.value = index;
+  clickedChildMenu.value = null; // 하위 메뉴 초기화
+};
+
+// 하위 메뉴 클릭 시 처리
+const clickChildMenu = (parentIndex: number, childIndex: number) => {
+  clickedMenu.value = parentIndex;
+  clickedChildMenu.value = childIndex;
+};
+
+// 특정 메뉴가 열렸는지 여부 확인
+const isOpen = (index: number): boolean => openMenus.value.includes(index);
+
+// 메뉴 접기/펼치기 토글
+const toggleMenu = (index: number): void => {
+  if (isOpen(index)) {
+    openMenus.value = openMenus.value.filter((i) => i !== index);
+  } else {
+    openMenus.value.push(index);
+  }
 };
 </script>
 

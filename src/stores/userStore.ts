@@ -50,6 +50,7 @@ export const useUserStore = defineStore("user", {
   getters: {
     // `isLogin`을 반환하는 getter
     getIsLogin: (state): boolean => state.isLogin,
+    getCompanyType: (state): string => state.companyType
   },
   persist: true,
 });
