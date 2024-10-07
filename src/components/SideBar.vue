@@ -13,7 +13,7 @@
       <img v-else src="/sub_logo.svg" alt="sub_logo" class="h-full p-2" />
     </h2>
 
-    <nav class="mt-16 overflow-y-auto h-full pb-4">
+    <nav class="mt-16 h-full pb-4" :class="{ 'overflow-y-auto': !isSimple }">
       <ul>
         <li
           v-for="(menu, index) in menus"
@@ -25,14 +25,17 @@
           <div v-if="menu.children">
             <div
               @click="toggleMenu(index)"
-              class="py-2 px-4 flex justify-between items-center"
+              class="py-2 px-4 flex justify-between items-center cursor-pointer hover:scale-95 hover:bg-green-300"
               :class="{
                 'bg-green-400': tooltipIndex === index,
               }"
             >
               <span
                 class="flex items-center gap-2 w-full"
-                :class="{ 'justify-center': isSimple }"
+                :class="{
+                  'justify-center': isSimple,
+                  'text-gray-600': tooltipIndex === index,
+                }"
               >
                 <component :is="menu.icon" class="w-6 h-6" />
                 <p v-if="!isSimple">{{ menu.name }}</p>
@@ -51,9 +54,9 @@
                 @click="clickChildMenu(index, idx)"
               >
                 <router-link
-                  @click="clickChildMenu(index, child)"
+                  @click="clickChildMenu(index, idx)"
                   :to="child.route"
-                  class="block py-2 px-6 hover:bg-green-400"
+                  class="block py-2 px-6 hover:bg-green-300"
                   :class="{
                     'bg-green-400':
                       clickedMenu === index && clickedChildMenu === idx,
@@ -69,10 +72,11 @@
             v-else
             :to="menu.route"
             @click="clickMenu(index)"
-            class="py-2 px-4 flex items-center gap-2"
+            class="py-2 px-4 flex items-center gap-2 hover:bg-green-300"
             :class="{
               'justify-center': isSimple,
-              'bg-green-400': tooltipIndex === index || clickedMenu === index,
+              'bg-green-400 text-gray-600':
+                tooltipIndex === index || clickedMenu === index,
             }"
           >
             <!-- 메뉴 아이콘 -->
@@ -82,7 +86,7 @@
 
           <!-- 툴팁 -->
           <div
-            class="absolute left-full top-0 bg-green-400 text-black w-48 pt-2"
+            class="absolute left-full top-0 bg-green-300 text-black w-48 pt-2 z-50"
             :class="{ 'pb-2': !menu.children }"
             v-if="isSimple && tooltipIndex === index"
           >
@@ -99,12 +103,9 @@
                 <li
                   v-for="(child, index) in menu.children"
                   :key="index"
-                  class="hover:bg-white text-sm py-2 px-4 w-full"
+                  class="hover:bg-white text-sm py-2 px-4 w-full cursor-pointer"
                 >
-                  <router-link
-                    @click="clickChildMenu(index, child)"
-                    :to="child.route"
-                  >
+                  <router-link :to="child.route">
                     - {{ child.name }}
                   </router-link>
                 </li>
