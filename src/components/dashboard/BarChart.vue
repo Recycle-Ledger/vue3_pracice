@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[248px] bg-white p-3 justify-center flex">
+  <div class="w-full h-[248px] bg-white p-3 justify-center items-center flex">
     <canvas id="barChart"></canvas>
   </div>
 </template>
@@ -9,7 +9,7 @@ import { onMounted, ref, computed } from "vue";
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto";
 import {
   getPurchaseGraph,
-  PurchaseGraphData,
+  graphData,
 } from "../../service/dashboard/graphService";
 import { checkAndRedirectToken } from "../../service/tokenCheck";
 
@@ -74,7 +74,7 @@ const config = computed<ChartConfiguration>(() => ({
 // API 호출 후 데이터를 차트에 반영하는 함수
 const fetchChartData = async () => {
   const token: string = await checkAndRedirectToken();
-  const data: PurchaseGraphData[] | null = await getPurchaseGraph(token);
+  const data: graphData[] | null = await getPurchaseGraph(token);
 
   if (data) {
     rawData.value = data;
