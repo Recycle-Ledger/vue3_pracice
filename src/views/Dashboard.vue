@@ -42,8 +42,7 @@ import DoughnutChart from "../components/dashboard/DoughnutChart.vue";
 import DataTable from "../components/table/DataTable.vue";
 import { getSummary, SummaryData } from "../service/dashboard/summaryService";
 import { onMounted, ref } from "vue";
-import router from "../router";
-import { logout } from "../service/loginService";
+import { checkAndRedirectToken } from "../service/tokenCheck";
 
 const summaryData = ref<SummaryData>({
   totalStock: 0,
@@ -56,16 +55,10 @@ const summaryData = ref<SummaryData>({
 });
 
 onMounted(async () => {
-  const token: string = sessionStorage.getItem("recycle-token") || "";
-  if (token === "") {
-    await logout();
-    router.replace("/login");
-  }
+  const token: string = await checkAndRedirectToken();
   const data: SummaryData | null = await getSummary(token);
   if (!data) {
-    await logout();
     console.error(data);
-    router.replace("/login");
   }
   summaryData.value = data!;
 });

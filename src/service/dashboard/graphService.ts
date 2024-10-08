@@ -1,19 +1,14 @@
-export interface SummaryData {
-  totalStock: number;
-  totalPurchased: number;
-  certification: CertificationData
+export interface PurchaseGraphData {
+  date: string;
+  weight: number;
 }
-
-export interface CertificationData {
-    inProgress: number;
-    approved: number;
-    reject: number;
-  }
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export async function getSummary(token: string): Promise<SummaryData | null> {
-  const url = `${apiUrl}/api/v1/summary`;
+export async function getPurchaseGraph(
+  token: string
+): Promise<PurchaseGraphData[] | null> {
+  const url = `${apiUrl}/api/v1/purchase/graphs`;
 
   try {
     const response = await fetch(url, {
@@ -35,7 +30,6 @@ export async function getSummary(token: string): Promise<SummaryData | null> {
 
     console.log(result);
     return null;
-
   } catch (error) {
     console.error(error);
     return null;
