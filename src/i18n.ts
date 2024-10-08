@@ -46,6 +46,16 @@ const messages = {
       fishFat: "Fish Fat",
       ucoDailyStats: "UCO Daily Stats",
     },
+    dashboard: {
+      totalPurchaseQuantity: "Total Purchase Weight",
+      currentStockQuantity: "Current Inventory Weight",
+      certificationProgress: "Progress",
+      certificationApprove: "Approved",
+      certificationReject: "Rejected",
+      korea: "Korea",
+      usa: "USA",
+      japan: "Japan",
+    },
   },
   ko: {
     topBar: {
@@ -92,9 +102,18 @@ const messages = {
       fishFat: "Fish Fat",
       ucoDailyStats: "UCO 일별 통계",
     },
+    dashboard: {
+      totalPurchaseQuantity: "총 구매 물량",
+      currentStockQuantity: "현재 재고 물량",
+      certificationProgress: "인증 진행",
+      certificationApprove: "인증 승인",
+      certificationReject: "인증 거부",
+      korea: "한국",
+      usa: "미국",
+      japan: "일본",
+    },
   },
 };
-
 
 const i18n = createI18n({
   legacy: false, // Composition API 사용

@@ -29,17 +29,23 @@
         </p>
       </div>
 
-      <div v-else class="flex w-full justify-start gap-10">
+      <div v-else class="flex w-full justify-evenly md:justify-start md:gap-5">
         <div class="flex flex-col">
-          <p class="text-opacity-50 text-black line-clamp-2">인증 진행</p>
+          <p class="text-opacity-50 text-black line-clamp-2">
+            {{ t("dashboard.certificationProgress") }}
+          </p>
           <p class="text-2xl font-bold">{{ value.inProgress }}</p>
         </div>
         <div class="flex flex-col">
-          <p class="text-opacity-50 text-black line-clamp-2">인증 승인</p>
+          <p class="text-opacity-50 text-black line-clamp-2">
+            {{ t("dashboard.certificationApprove") }}
+          </p>
           <p class="text-2xl font-bold">{{ value.approved }}</p>
         </div>
         <div class="flex flex-col">
-          <p class="text-opacity-50 text-black line-clamp-2">인증 거부</p>
+          <p class="text-opacity-50 text-black line-clamp-2">
+            {{ t("dashboard.certificationReject") }}
+          </p>
           <p class="text-2xl font-bold">{{ value.reject }}</p>
         </div>
       </div>
@@ -56,6 +62,9 @@ import {
   HomeModernIcon,
   CheckBadgeIcon,
 } from "@heroicons/vue/24/outline";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const cardValue = computed<string | CertificationData>(() => {
   if (typeof props.value === "number") {
@@ -87,7 +96,7 @@ const props = defineProps({
   },
 });
 
-// Heroicon 컴포넌트 매핑 => 매핑을 해야 import를 인식함
+// Heroicon 컴포넌트 매핑
 const iconMap: Record<string, any> = {
   CurrencyDollarIcon: CurrencyDollarIcon,
   HomeModernIcon: HomeModernIcon,

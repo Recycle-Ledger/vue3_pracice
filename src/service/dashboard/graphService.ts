@@ -3,6 +3,11 @@ export interface graphData {
   weight: number;
 }
 
+export interface CountryGraphData {
+    englishName: string;
+    count: number;
+  }
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 interface ApiResponse<T> {
@@ -50,7 +55,7 @@ export async function getStockGraph(token: string): Promise<graphData[] | null> 
   return fetchGraphApi<graphData[]>(url, token);
 }
 
-export async function getCountryGraph(token: string): Promise<any | null> {
+export async function getCountryGraph(token: string): Promise<CountryGraphData[] | null> {
   const url = `${apiUrl}/api/v1/uco/stock/country-group`;
-  return fetchGraphApi<any>(url, token);  // 타입을 맞춰서 지정해 주세요
+  return fetchGraphApi<CountryGraphData[]>(url, token);  // 타입을 맞춰서 지정해 주세요
 }

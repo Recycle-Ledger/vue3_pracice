@@ -7,32 +7,28 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from "vue";
 import Chart, { ChartConfiguration, ChartItem } from "chart.js/auto";
-import { getCountryGraph } from "../../service/dashboard/graphService";
+import {
+  getCountryGraph,
+  CountryGraphData,
+} from "../../service/dashboard/graphService";
 import { checkAndRedirectToken } from "../../service/tokenCheck";
-import { useI18n } from "vue-i18n";
 
-const { t, locale } = useI18n();
-
-// 데이터를 저장할 ref
-const rawData = ref<
-  Array<{ name: string; englishName: string; count: number }>
->([
-  { name: "한국", englishName: "Korea", count: 10 },
-  { name: "미국", englishName: "USA", count: 20 },
-  { name: "일본", englishName: "Japan", count: 30 },
+// 데이터를 저장할 ref (englishName만 사용)
+const rawData = ref<CountryGraphData[]>([
+  { englishName: "KOREA, REPUBLIC OF", count: 10 },
+  { englishName: "USA", count: 20 },
+  { englishName: "JAPAN", count: 30 },
 ]);
 
-// 라벨과 데이터셋을 computed로 동적 계산
-const labels = computed(() =>
-  rawData.value.map((e) => (locale.value === "ko" ? e.name : e.englishName))
-);
+// 라벨과 데이터셋을 computed로 동적 계산 (englishName만 사용)
+const labels = computed(() => rawData.value.map((e) => e.englishName));
 const dataset = computed(() => rawData.value.map((e) => e.count));
 
 // Chart.js 설정을 computed로 관리
 const config = computed<ChartConfiguration>(() => ({
   type: "doughnut",
   data: {
-    labels: labels.value, // 라벨 설정
+    labels: labels.value, // 라벨 설정 (englishName)
     datasets: [
       {
         fill: false,
