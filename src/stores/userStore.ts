@@ -52,5 +52,7 @@ export const useUserStore = defineStore("user", {
     getIsLogin: (state): boolean => state.isLogin,
     getCompanyType: (state): string => state.companyType
   },
-  persist: true,
+  persist: {
+    storage: sessionStorage,
+  },
 });

@@ -44,11 +44,12 @@ const userStore = useUserStore();
 const isLogin = computed(() => userStore.getIsLogin);
 
 // isLogin 상태 변화를 감지하는 watch
-watch(isLogin, () => {
-  if (isLogin) {
+watch(isLogin, (newIsLogin) => {
+  const currentRoute = router.currentRoute.value.path;
+  if (newIsLogin && currentRoute !== "/dashboard") {
     router.replace("/dashboard");
-  } else {
-    router.replace("/");
+  } else if (!newIsLogin && currentRoute !== "/login") {
+    router.replace("/login");
   }
 });
 </script>

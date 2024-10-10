@@ -73,7 +73,7 @@ const userStore = useUserStore();
 // 컴포넌트가 마운트될 때 로그인 상태를 확인하여 리다이렉트 처리
 onMounted(async () => {
   // 로그인 상태 확인
-  if (userStore.isLogin) {
+  if (userStore.getIsLogin) {
     // 로그인된 상태라면 대시보드로 이동
     router.push("/dashboard");
   } else {
