@@ -1,0 +1,70 @@
+{
+  "topBar": {
+    "help": "도움말",
+    "language": "언어",
+    "profile": "프로필",
+    "password": "비밀번호",
+    "logout": "로그아웃",
+    "userType": "사용자 유형 선택"
+  },
+  "loginVue": {
+    "emailPlaceholder": "이메일을 입력하세요",
+    "passwordPlaceholder": "패스워드를 입력하세요",
+    "emailRequired": "이메일을 입력해주세요.",
+    "passwordRequired": "비밀번호를 입력해주세요.",
+    "loginFailed": "로그인에 실패하였습니다.",
+    "authMismatch": "이메일과 비밀번호가 일치하지 않습니다.",
+    "loginButton": "로그인",
+    "FindPasswordButton": "비밀번호 찾기"
+  },
+  "loginService": {
+    "loginFailed": "로그인에 실패하였습니다.",
+    "authMismatch": "이메일과 비밀번호가 일치하지 않습니다."
+  },
+  "sidebar": {
+    "dashboard": "대시보드",
+    "members": "회원 목록",
+    "warehouse": "창고 목록",
+    "purchaseRequest": "구매 요청",
+    "purchaseHistory": "구매 내역",
+    "inventory": "재고 목록",
+    "salesRequest": "판매 요청",
+    "salesHistory": "판매 내역",
+    "uco": "UCO",
+    "tallow": "Tallow",
+    "localFile": "국산우지 파일",
+    "localHistory": "국산우지 내역",
+    "localSales": "국산우지 판매",
+    "certificationRequest": "인증 요청",
+    "certificationHistory": "인증 내역",
+    "ai": "AI 인식",
+    "calendar": "재고 달력",
+    "statistics": "통계",
+    "fishFat": "Fish Fat",
+    "ucoDailyStats": "UCO 일별 통계"
+  },
+  "dashboard": {
+    "totalPurchaseQuantity": "총 구매 물량",
+    "currentStockQuantity": "현재 재고 물량",
+    "certificationProgress": "인증 진행",
+    "certificationApprove": "인증 승인",
+    "certificationReject": "인증 거부",
+    "korea": "한국",
+    "usa": "미국",
+    "japan": "일본"
+  },
+  "ledger": {
+    "type": "유형",
+    "po": "PO",
+    "poAddress": "PO 주소",
+    "td": "TD",
+    "wh": "WH",
+    "collectionQuantity": "수거 수량",
+    "collectionWeight": "수거 무게(Kg)",
+    "containerWeight": "수거 용기(무게)",
+    "collectionDate": "수거 일자",
+    "noData": "보유 중인 재고가 없습니다.",
+    "title": "재고 물량 조회",
+    "loadMore": "더 보기"
+  }
+}

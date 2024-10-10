@@ -23,13 +23,25 @@
         textColor="blue"
       />
     </div>
-    <div class="grid lg:grid-cols-3 md:grid-cols-1 gap-5">
+
+    <!-- userType AU가 아닌 경우에만 그래프 표시 -->
+    <div
+      v-if="userType !== 'AU'"
+      class="grid lg:grid-cols-3 md:grid-cols-1 gap-5"
+    >
       <BarChart />
       <LineChart />
       <DoughnutChart />
     </div>
-    <div>
+
+    <!-- userType PH인 경우 다른 테이블 표시 -->
+    <div v-if="userType === 'PH'">
       <DashboardDataTable />
+    </div>
+
+    <!-- PH가 아닌 경우 LedgerTable 표시 -->
+    <div v-else>
+      <LedgerTable />
     </div>
   </div>
 </template>
@@ -41,9 +53,11 @@ import LineChart from "../components/dashboard/LineChart.vue";
 import BarChart from "../components/dashboard/BarChart.vue";
 import DoughnutChart from "../components/dashboard/DoughnutChart.vue";
 import DashboardDataTable from "../components/dashboard/DashboardDataTable.vue";
+import LedgerTable from "../components/dashboard/LedgerTable.vue";
 import { getSummary, SummaryData } from "../service/dashboard/summaryService";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { checkAndRedirectToken } from "../service/tokenCheck";
+import { useUserStore } from "../stores/userStore";
 
 // i18n 함수 가져오기
 const { t } = useI18n();
@@ -58,6 +72,9 @@ const summaryData = ref<SummaryData>({
     reject: 0,
   },
 });
+
+const userStore = useUserStore();
+const userType = computed<string>(() => userStore.getCompanyType);
 
 onMounted(async () => {
   const token: string = await checkAndRedirectToken();
