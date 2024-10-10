@@ -1,0 +1,70 @@
+{
+  "topBar": {
+    "help": "Help",
+    "language": "Language",
+    "profile": "Profile",
+    "password": "Password",
+    "logout": "Logout",
+    "userType": "Select User Type"
+  },
+  "loginVue": {
+    "emailPlaceholder": "Please enter your email",
+    "passwordPlaceholder": "Please enter your password",
+    "emailRequired": "Please enter your email.",
+    "passwordRequired": "Please enter your password.",
+    "loginFailed": "Login failed.",
+    "authMismatch": "Email and password do not match.",
+    "loginButton": "Login",
+    "FindPasswordButton": "Find Password"
+  },
+  "loginService": {
+    "loginFailed": "Login failed.",
+    "authMismatch": "Email and password do not match."
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "members": "Members",
+    "warehouse": "Warehouse",
+    "purchaseRequest": "Purchase Request",
+    "purchaseHistory": "Purchase History",
+    "inventory": "Inventory",
+    "salesRequest": "Sales Request",
+    "salesHistory": "Sales History",
+    "uco": "UCO",
+    "tallow": "Tallow",
+    "localFile": "Local Tallow File",
+    "localHistory": "Local Tallow History",
+    "localSales": "Local Tallow Sales",
+    "certificationRequest": "Certification Request",
+    "certificationHistory": "Certification History",
+    "ai": "AI Recognition",
+    "calendar": "Inventory Calendar",
+    "statistics": "Statistics",
+    "fishFat": "Fish Fat",
+    "ucoDailyStats": "UCO Daily Stats"
+  },
+  "dashboard": {
+    "totalPurchaseQuantity": "Total Purchase Weight",
+    "currentStockQuantity": "Current Inventory Weight",
+    "certificationProgress": "Progress",
+    "certificationApprove": "Approved",
+    "certificationReject": "Rejected",
+    "korea": "Korea",
+    "usa": "USA",
+    "japan": "Japan"
+  },
+  "ledger": {
+    "type": "Type",
+    "po": "PO",
+    "poAddress": "PO Address",
+    "td": "TD",
+    "wh": "WH",
+    "collectionQuantity": "Collection Quantity",
+    "collectionWeight": "Collection Weight (Kg)",
+    "containerWeight": "Container Weight",
+    "collectionDate": "Collection Date",
+    "noData": "We don't have any in UCO.",
+    "title": "Ledger Stock Inquiry",
+    "loadMore": "Load More"
+  }
+}
