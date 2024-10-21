@@ -22,40 +22,18 @@
     </div>
 
     <div class="flex flex-col w-full">
-      <div v-if="typeof value === 'number'">
-        <p class="text-opacity-50 text-black">{{ title }}</p>
+      <div>
+        <p class="text-opacity-50 text-black">{{ t(title) }}</p>
         <p class="text-2xl font-bold">
-          {{ cardValue }}
+          {{ formattedValue }}
         </p>
-      </div>
-
-      <div v-else class="flex w-full justify-evenly md:justify-start md:gap-5">
-        <div class="flex flex-col">
-          <p class="text-opacity-50 text-black line-clamp-2">
-            {{ t("dashboard.certificationProgress") }}
-          </p>
-          <p class="text-2xl font-bold">{{ value.inProgress }}</p>
-        </div>
-        <div class="flex flex-col">
-          <p class="text-opacity-50 text-black line-clamp-2">
-            {{ t("dashboard.certificationApprove") }}
-          </p>
-          <p class="text-2xl font-bold">{{ value.approved }}</p>
-        </div>
-        <div class="flex flex-col">
-          <p class="text-opacity-50 text-black line-clamp-2">
-            {{ t("dashboard.certificationReject") }}
-          </p>
-          <p class="text-2xl font-bold">{{ value.reject }}</p>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, PropType } from "vue";
-import { CertificationData } from "../../service/dashboard/summaryService";
+import { computed } from "vue";
 import { formatNumber } from "../../service/numberFormat";
 import {
   CurrencyDollarIcon,
@@ -66,20 +44,13 @@ import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 
-const cardValue = computed<string | CertificationData>(() => {
-  if (typeof props.value === "number") {
-    return formatNumber(props.value) + "kg";
-  }
-  return props.value;
-});
-
 const props = defineProps({
   title: {
     type: String,
     required: true,
   },
   value: {
-    type: [Number, Object] as PropType<number | CertificationData>,
+    type: Number,
     required: true,
   },
   icon: {
@@ -94,6 +65,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  needFormat: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 // Heroicon 컴포넌트 매핑
@@ -102,6 +77,14 @@ const iconMap: Record<string, any> = {
   HomeModernIcon: HomeModernIcon,
   CheckBadgeIcon: CheckBadgeIcon,
 };
+
+// formattedValue를 computed로 정의하여 특정 title에만 포맷 적용 및 'kg' 추가
+const formattedValue = computed(() => {
+  if (props.needFormat) {
+    return `${formatNumber(props.value)} kg`;
+  }
+  return props.value.toString();
+});
 </script>
 
 <style scoped></style>

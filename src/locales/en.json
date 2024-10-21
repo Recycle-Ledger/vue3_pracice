@@ -44,14 +44,21 @@
     "ucoDailyStats": "UCO Daily Stats"
   },
   "dashboard": {
-    "totalPurchaseQuantity": "Total Purchase Weight",
     "currentStockQuantity": "Current Inventory Weight",
-    "certificationProgress": "Progress",
     "certificationApprove": "Approved",
     "certificationReject": "Rejected",
     "korea": "Korea",
     "usa": "USA",
-    "japan": "Japan"
+    "japan": "Japan",
+    "totalPurchaseQuantity": "Total Purchase Quantity",
+    "totalStockQuantity": "Total Stock Quantity",
+    "certificationProgress": "Certification Progress",
+    "purchaseInProgress": "Purchase In Progress",
+    "purchaseCompleted": "Purchase Completed",
+    "purchaseRejected": "Purchase Rejected",
+    "certificationInProgress": "Certification In Progress",
+    "certificationCompleted": "Certification Completed",
+    "certificationRejected": "Certification Rejected"
   },
   "ledger": {
     "type": "Type",

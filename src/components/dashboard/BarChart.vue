@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[248px] bg-white p-3 justify-center items-center flex">
+  <div class="bg-white p-3 justify-center flex">
     <canvas id="barChart"></canvas>
   </div>
 </template>
