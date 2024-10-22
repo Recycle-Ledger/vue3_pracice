@@ -1,6 +1,6 @@
 <template>
   <header
-    class="bg-white px-4 shadow-md fixed top-0 h-16"
+    class="bg-white px-4 shadow-md fixed top-0 h-[64px]"
     :style="
       !isSimple
         ? 'left: 256px; width: calc(100% - 256px)'
@@ -50,16 +50,16 @@
               class="absolute right-0 mt-2 w-32 z-30 bg-white border rounded-md shadow-lg"
             >
               <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <span>{{ t("topBar.profile") }}</span>
+                <span>{{ t('topBar.profile') }}</span>
               </li>
               <li class="px-4 py-2 hover:bg-gray-200 cursor-pointer">
-                <span>{{ t("topBar.password") }}</span>
+                <span>{{ t('topBar.password') }}</span>
               </li>
               <li
                 class="px-4 py-2 hover:bg-gray-200 cursor-pointer"
                 @click="handleLogout"
               >
-                <span>{{ t("topBar.logout") }}</span>
+                <span>{{ t('topBar.logout') }}</span>
               </li>
             </ul>
           </li>
@@ -70,51 +70,53 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useUserStore } from "../stores/userStore.ts";
-import { useSidebarStore } from "../stores/sideBarStore.ts";
-import { useRouter } from "vue-router";
-import { logout } from "../service/loginService.ts";
-import LanguageDropDown from "../components/LanguageDropDown.vue";
-import { Bars3Icon } from "@heroicons/vue/24/outline";
-import { QuestionMarkCircleIcon, UserIcon } from "@heroicons/vue/24/solid";
-import { useI18n } from "vue-i18n";
+  import { ref, computed } from 'vue';
+  import { useUserStore } from '../stores/userStore.ts';
+  import { useSidebarStore } from '../stores/sideBarStore.ts';
+  import { useRouter } from 'vue-router';
+  import { logout } from '../service/loginService.ts';
+  import LanguageDropDown from '../components/LanguageDropDown.vue';
+  import { Bars3Icon } from '@heroicons/vue/24/outline';
+  import { QuestionMarkCircleIcon, UserIcon } from '@heroicons/vue/24/solid';
+  import { useI18n } from 'vue-i18n';
 
-// 다국어 지원
-const { t, locale } = useI18n();
-const currentLocale = computed(() => locale.value);
+  // 다국어 지원
+  const { t, locale } = useI18n();
+  const currentLocale = computed(() => locale.value);
 
-// Pinia user 스토어 사용
-const userStore = useUserStore();
-// 사용자 정보 가져오기
-const memberName = computed<string>(() => userStore.memberName);
-const currentCompanyName = computed<string>(() =>
-  currentLocale.value === "en" ? userStore.companyNameEn : userStore.companyName
-);
+  // Pinia user 스토어 사용
+  const userStore = useUserStore();
+  // 사용자 정보 가져오기
+  const memberName = computed<string>(() => userStore.memberName);
+  const currentCompanyName = computed<string>(() =>
+    currentLocale.value === 'en'
+      ? userStore.companyNameEn
+      : userStore.companyName
+  );
 
-// 드롭다운 상태 관리
-const isDropdownOpen = ref<boolean>(false);
-// 드롭다운 토글 함수
-const toggleDropdown = (): void => {
-  isDropdownOpen.value = !isDropdownOpen.value;
-};
+  // 드롭다운 상태 관리
+  const isDropdownOpen = ref<boolean>(false);
+  // 드롭다운 토글 함수
+  const toggleDropdown = (): void => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+  };
 
-// pinia 사이드바 스토어 사용
-const sideBarStore = useSidebarStore();
-const isSimple = computed<boolean>(() => sideBarStore.isSimple);
+  // pinia 사이드바 스토어 사용
+  const sideBarStore = useSidebarStore();
+  const isSimple = computed<boolean>(() => sideBarStore.isSimple);
 
-// 사이드바 토글 함수
-const toggleSidebar = (): void => {
-  sideBarStore.toggleSidebar();
-};
+  // 사이드바 토글 함수
+  const toggleSidebar = (): void => {
+    sideBarStore.toggleSidebar();
+  };
 
-const router = useRouter();
-// 로그아웃 처리 함수
-const handleLogout = async (): Promise<void> => {
-  userStore.clearUserInfo();
-  await logout();
-  router.replace({ path: "/login" });
-};
+  const router = useRouter();
+  // 로그아웃 처리 함수
+  const handleLogout = async (): Promise<void> => {
+    userStore.clearUserInfo();
+    await logout();
+    router.replace({ path: '/login' });
+  };
 </script>
 
 <style scoped></style>
