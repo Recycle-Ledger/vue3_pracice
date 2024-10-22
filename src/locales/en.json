@@ -7,7 +7,7 @@
     "logout": "Logout",
     "userType": "Select User Type"
   },
-  "loginVue": {
+  "login": {
     "emailPlaceholder": "Please enter your email",
     "passwordPlaceholder": "Please enter your password",
     "emailRequired": "Please enter your email.",

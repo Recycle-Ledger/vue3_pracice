@@ -7,7 +7,7 @@
     "logout": "로그아웃",
     "userType": "사용자 유형 선택"
   },
-  "loginVue": {
+  "login": {
     "emailPlaceholder": "이메일을 입력하세요",
     "passwordPlaceholder": "패스워드를 입력하세요",
     "emailRequired": "이메일을 입력해주세요.",
