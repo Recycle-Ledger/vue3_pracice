@@ -27,31 +27,31 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from "vue";
-import { useUserStore } from "./stores/userStore"; // Pinia 스토어 사용
-import { useSidebarStore } from "./stores/sideBarStore"; // 사이드바 스토어
-import TopBar from "./components/TopBar.vue";
-import SideBar from "./components/SideBar.vue";
-import Login from "./views/Login.vue";
-import { useRouter } from "vue-router";
+  import { computed, watch } from 'vue';
+  import { useUserStore } from './stores/userStore'; // Pinia 스토어 사용
+  import { useSidebarStore } from './stores/sideBarStore'; // 사이드바 스토어
+  import TopBar from './components/TopBar.vue';
+  import SideBar from './components/SideBar.vue';
+  import Login from './views/Login.vue';
+  import { useRouter } from 'vue-router';
 
-const router = useRouter();
-const sideBarStore = useSidebarStore();
-const isSimple = computed(() => sideBarStore.isSimple);
+  const router = useRouter();
+  const sideBarStore = useSidebarStore();
+  const isSimple = computed(() => sideBarStore.isSimple);
 
-// Pinia에서 isLogin 상태를 가져옴
-const userStore = useUserStore();
-const isLogin = computed(() => userStore.getIsLogin);
+  // Pinia에서 isLogin 상태를 가져옴
+  const userStore = useUserStore();
+  const isLogin = computed(() => userStore.getIsLogin);
 
-// isLogin 상태 변화를 감지하는 watch
-watch(isLogin, (newIsLogin) => {
-  const currentRoute = router.currentRoute.value.path;
-  if (newIsLogin && currentRoute !== "/dashboard") {
-    router.replace("/dashboard");
-  } else if (!newIsLogin && currentRoute !== "/login") {
-    router.replace("/login");
-  }
-});
+  // isLogin 상태 변화를 감지하는 watch
+  watch(isLogin, (newIsLogin) => {
+    const currentRoute = router.currentRoute.value.path;
+    if (newIsLogin && currentRoute !== '/dashboard') {
+      router.replace('/dashboard');
+    } else if (!newIsLogin && currentRoute !== '/login') {
+      router.replace('/login');
+    }
+  });
 </script>
 
 <style scoped></style>
