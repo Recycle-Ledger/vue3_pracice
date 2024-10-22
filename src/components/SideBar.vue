@@ -138,89 +138,89 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onBeforeUnmount, onMounted } from "vue";
-import { useUserStore } from "../stores/userStore.ts";
-import { useSidebarStore } from "../stores/sideBarStore.ts";
-import { menuTypes } from "../constants/SideBarConstants.ts";
-import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/vue/24/outline";
-import { useI18n } from "vue-i18n"; // 다국어 지원을 위한 훅
+  import { computed, ref, onBeforeUnmount, onMounted } from 'vue';
+  import { useUserStore } from '../stores/userStore.ts';
+  import { useSidebarStore } from '../stores/sideBarStore.ts';
+  import { menuTypes } from '../constants/SideBarConstants.ts';
+  import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+  import { useI18n } from 'vue-i18n'; // 다국어 지원을 위한 훅
 
-const { t } = useI18n(); // 다국어 텍스트와 언어 설정 훅
-// Pinia 스토어 사용
-const userStore = useUserStore();
-const userType = computed<string>(() => userStore.getCompanyType);
+  const { t } = useI18n(); // 다국어 텍스트와 언어 설정 훅
+  // Pinia 스토어 사용
+  const userStore = useUserStore();
+  const userType = computed<string>(() => userStore.getCompanyType);
 
-// 사이드바 상태 스토어 사용
-const sidebarStore = useSidebarStore();
-const isSimple = computed<boolean>(() => sidebarStore.isSimple);
+  // 사이드바 상태 스토어 사용
+  const sidebarStore = useSidebarStore();
+  const isSimple = computed<boolean>(() => sidebarStore.isSimple);
 
-// 창 크기에 따라 자동으로 심플 모드로 전환
-const updateSidebarMode = () => {
-  if (window.innerWidth < 768) {
-    sidebarStore.isSimple = true; // 작은 화면일 때 심플 모드
-  } else {
-    sidebarStore.isSimple = false; // 큰 화면일 때 풀 모드
-  }
-};
+  // 창 크기에 따라 자동으로 심플 모드로 전환
+  const updateSidebarMode = () => {
+    if (window.innerWidth < 1200) {
+      sidebarStore.isSimple = true; // 작은 화면일 때 심플 모드
+    } else {
+      sidebarStore.isSimple = false; // 큰 화면일 때 풀 모드
+    }
+  };
 
-// 창 크기 변화 감지
-onMounted(() => {
-  window.addEventListener("resize", updateSidebarMode);
-  updateSidebarMode(); // 초기 로드 시 모드 설정
-});
+  // 창 크기 변화 감지
+  onMounted(() => {
+    window.addEventListener('resize', updateSidebarMode);
+    updateSidebarMode(); // 초기 로드 시 모드 설정
+  });
 
-// 창 크기 변화 감지 중지
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", updateSidebarMode);
-});
+  // 창 크기 변화 감지 중지
+  onBeforeUnmount(() => {
+    window.removeEventListener('resize', updateSidebarMode);
+  });
 
-// 메뉴 상태 관리
-const openMenus = ref<number[]>([]); // 열린 메뉴의 인덱스 저장
+  // 메뉴 상태 관리
+  const openMenus = ref<number[]>([]); // 열린 메뉴의 인덱스 저장
 
-// 사용자 유형에 맞는 메뉴 가져오기
-const menus = computed(() => {
-  return menuTypes[userType.value];
-});
+  // 사용자 유형에 맞는 메뉴 가져오기
+  const menus = computed(() => {
+    return menuTypes[userType.value];
+  });
 
-const tooltipIndex = ref<number>(-1); // 현재 툴팁이 보이는 메뉴 인덱스
+  const tooltipIndex = ref<number>(-1); // 현재 툴팁이 보이는 메뉴 인덱스
 
-// 마우스 오버 시 툴팁 표시
-const showTooltip = (index: number): void => {
-  tooltipIndex.value = index;
-};
+  // 마우스 오버 시 툴팁 표시
+  const showTooltip = (index: number): void => {
+    tooltipIndex.value = index;
+  };
 
-// 마우스가 떠나면 툴팁 숨김
-const hideTooltip = (): void => {
-  tooltipIndex.value = -1;
-};
+  // 마우스가 떠나면 툴팁 숨김
+  const hideTooltip = (): void => {
+    tooltipIndex.value = -1;
+  };
 
-// 메뉴 클릭 상태 관리
-const clickedMenu = ref<number | null>(null);
-const clickedChildMenu = ref<number | null>(null);
+  // 메뉴 클릭 상태 관리
+  const clickedMenu = ref<number | null>(null);
+  const clickedChildMenu = ref<number | null>(null);
 
-// 상위 메뉴 클릭 시 처리
-const clickMenu = (index: number) => {
-  clickedMenu.value = index;
-  clickedChildMenu.value = null; // 하위 메뉴 초기화
-};
+  // 상위 메뉴 클릭 시 처리
+  const clickMenu = (index: number) => {
+    clickedMenu.value = index;
+    clickedChildMenu.value = null; // 하위 메뉴 초기화
+  };
 
-// 하위 메뉴 클릭 시 처리
-const clickChildMenu = (parentIndex: number, childIndex: number) => {
-  clickedMenu.value = parentIndex;
-  clickedChildMenu.value = childIndex;
-};
+  // 하위 메뉴 클릭 시 처리
+  const clickChildMenu = (parentIndex: number, childIndex: number) => {
+    clickedMenu.value = parentIndex;
+    clickedChildMenu.value = childIndex;
+  };
 
-// 특정 메뉴가 열렸는지 여부 확인
-const isOpen = (index: number): boolean => openMenus.value.includes(index);
+  // 특정 메뉴가 열렸는지 여부 확인
+  const isOpen = (index: number): boolean => openMenus.value.includes(index);
 
-// 메뉴 접기/펼치기 토글
-const toggleMenu = (index: number): void => {
-  if (isOpen(index)) {
-    openMenus.value = openMenus.value.filter((i) => i !== index);
-  } else {
-    openMenus.value.push(index);
-  }
-};
+  // 메뉴 접기/펼치기 토글
+  const toggleMenu = (index: number): void => {
+    if (isOpen(index)) {
+      openMenus.value = openMenus.value.filter((i) => i !== index);
+    } else {
+      openMenus.value.push(index);
+    }
+  };
 </script>
 
 <style scoped></style>
