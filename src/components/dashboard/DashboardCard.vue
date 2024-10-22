@@ -1,10 +1,10 @@
 <template>
   <div class="bg-white rounded-md flex flex-col w-full min-h-12">
     <div
-      class="h-24 py-2 px-4 flex gap-5 w-full justify-between items-center cursor-pointer hover:bg-opacity-50 transition-all duration-300 ease-in-out hover:scale-95"
+      class="h-24 py-2 px-4 flex gap-5 w-full justify-between items-center transition-all duration-300 ease-in-out"
       @click="toggleChart"
       :class="{
-        'cursor-pointer': canToggleChart,
+        'cursor-pointer hover:bg-opacity-50 hover:scale-95': canToggleChart,
         'cursor-default': !canToggleChart,
       }"
     >

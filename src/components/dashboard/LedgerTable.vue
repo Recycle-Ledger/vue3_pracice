@@ -1,13 +1,14 @@
 <template>
-  <div
-    class="w-full min-w-[600px] lg:w-[80dvw] bg-white shadow-lg rounded-lg p-4"
-  >
-    <div class="overflow-x-auto">
-      <table class="table-auto min-w-full border border-gray-300 rounded-lg">
+  <div class="w-full bg-transparent overflow-x-auto">
+    <div class="w-[1280px]">
+      <table class="table-auto min-w-full rounded-lg shadow-lg">
         <thead class="bg-ledgerdarkgreen-100 text-ledgerdarkgreen-500">
           <tr class="text-center">
+            <th></th>
             <th class="px-3 py-4 text-pretty">{{ t('ledger.type') }}</th>
-            <th class="px-3 py-4 text-pretty">{{ t('ledger.po') }}</th>
+            <th class="px-3 py-4 text-pretty">
+              {{ t('ledger.po') }}
+            </th>
             <th class="px-3 py-4 text-pretty">{{ t('ledger.poAddress') }}</th>
             <th class="px-3 py-4 text-pretty">{{ t('ledger.td') }}</th>
             <th class="px-3 py-4 text-pretty">{{ t('ledger.wh') }}</th>
@@ -36,36 +37,44 @@
           <tr
             v-for="(item, index) in items"
             :key="index"
-            class="text-center border-t border-gray-200 hover:bg-gray-100 transition-all duration-150 ease-in-out"
+            class="text-center border-t border-gray-200 hover:bg-gray-100 transition-all duration-150 ease-in-out text-pretty text-sm font-medium text-gray-700 bg-white"
           >
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
-              <span v-if="Array.isArray(item.type)">
-                {{ item.type.join(', ') }}
-              </span>
-              <span v-else>{{ item.type }}</span>
+            <!-- 타입과 AI 표시 -->
+            <td class="px-4 py-4 hover-transform">
+              <MagnifyingGlassCircleIcon class="w-6 h-6" />
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-2 py-4 text-xs font-bold">
+              <span class="mx-1 px-2 py-1 text-red-400 bg-red-100 rounded-md">
+                {{ item.type }}
+              </span>
+              <span
+                v-if="item.matchYn !== null"
+                class="mx-1 px-2 py-1 bg-blue-100 text-blue-500 rounded-md"
+                >AI</span
+              >
+            </td>
+            <td class="hover-transform px-4 py-4">
               {{ item.poName }}
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-4 py-4">
               {{ item.poStreetAddress }}
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="hover-transform px-4 py-4">
               {{ item.tdName }}
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-4 py-4">
               {{ item.whName }}
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-4 py-4">
               {{ item.quantity }}
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-4 py-4">
               {{ item.weight }}
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-4 py-4">
               {{ item.containerType }} ({{ item.containerWeight }})
             </td>
-            <td class="px-4 py-4 text-pretty text-sm font-medium text-gray-700">
+            <td class="px-4 py-4">
               {{ formatDate(item.dischargeDate) }}
             </td>
           </tr>
@@ -94,6 +103,7 @@
   import { useI18n } from 'vue-i18n';
   import { checkAndRedirectToken } from '../../service/tokenCheck';
   import { getLedger } from '../../service/dashboard/ledgerService';
+  import { MagnifyingGlassCircleIcon } from '@heroicons/vue/24/outline';
 
   const { t } = useI18n();
   const items = ref<any[]>([]);
@@ -119,4 +129,8 @@
   });
 </script>
 
-<style scoped></style>
+<style>
+  .hover-transform {
+    @apply transition-transform duration-300 ease-in-out text-blue-600 font-bold cursor-pointer hover:scale-125;
+  }
+</style>

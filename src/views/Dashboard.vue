@@ -22,7 +22,7 @@
     </div>
 
     <!-- PH가 아닌 경우 LedgerTable 표시 -->
-    <div v-else>
+    <div v-else class="w-full">
       <LedgerTable />
     </div>
   </div>
