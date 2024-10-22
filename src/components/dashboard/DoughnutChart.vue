@@ -56,8 +56,7 @@
       ],
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false,
+      // maintainAspectRatio: false,
       plugins: {
         legend: {
           position: 'right', // 레전드 위치

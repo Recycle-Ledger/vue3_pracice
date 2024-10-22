@@ -1,14 +1,6 @@
 <template>
-  <div
-    class="w-full flex flex-col lg:flex-row justify-center gap-5 items-start"
-  >
-    <div
-      :class="{
-        'lg:max-w-[360px] min-w-[280px] w-full flex flex-col gap-5':
-          userType !== 'AU',
-        'w-full flex gap-5': userType === 'AU',
-      }"
-    >
+  <div class="w-full flex flex-col justify-center gap-5 items-start">
+    <div class="grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-5 w-full">
       <!-- v-for를 이용한 DashboardCard 렌더링 -->
       <DashboardCard
         v-for="(card, index) in dashboardCards"
