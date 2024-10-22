@@ -44,14 +44,21 @@
     "ucoDailyStats": "UCO 일별 통계"
   },
   "dashboard": {
-    "totalPurchaseQuantity": "총 구매 물량",
     "currentStockQuantity": "현재 재고 물량",
-    "certificationProgress": "인증 진행",
     "certificationApprove": "인증 승인",
     "certificationReject": "인증 거부",
     "korea": "한국",
     "usa": "미국",
-    "japan": "일본"
+    "japan": "일본",
+    "totalPurchaseQuantity": "총 구매 수량",
+    "totalStockQuantity": "총 재고 수량",
+    "certificationProgress": "인증 진행",
+    "purchaseInProgress": "구매 진행",
+    "purchaseCompleted": "구매 완료",
+    "purchaseRejected": "구매 취소",
+    "certificationInProgress": "인증 진행",
+    "certificationCompleted": "인증 완료",
+    "certificationRejected": "인증 취소"
   },
   "ledger": {
     "type": "유형",

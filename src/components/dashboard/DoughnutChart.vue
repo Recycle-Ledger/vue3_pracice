@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-[248px] bg-white p-3 justify-center flex">
+  <div class="bg-white p-3 justify-center flex">
     <canvas id="doughnutChart"></canvas>
   </div>
 </template>
@@ -57,6 +57,7 @@ const config = computed<ChartConfiguration>(() => ({
   },
   options: {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "right", // 레전드 위치
